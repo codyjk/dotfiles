@@ -1,0 +1,186 @@
+#!/bin/sh -x
+
+# Include this file in ~/.bash_profile as followed:
+# source ~/.git_aliases
+
+
+#### setting hub alias
+eval "$(hub alias -s)"
+
+#### git shortcuts
+# Note: These shortcuts are made to simplify the workflow where
+# the fetch target of origin is the main repo, while
+# the push target of origin is your forked repo.
+# If you have the default origin remote setup, using these shortcuts
+# is not encouraged.
+
+alias gl='git log'
+alias gs='git status'
+alias gch='git checkout'
+alias gb='git branch'
+alias gf='git fetch'
+alias gpr='git pull --rebase'
+alias gsh='git stash'
+alias gsha='git stash apply'
+alias gaa='git add --all'
+alias grsh='git reset --soft HEAD\^'
+alias grc='git rebase --continue'
+alias gra='git rebase --abort'
+alias gstat='git diff --stat'
+alias gre='git fetch origin && git rebase origin/master'
+alias gg='git grep'
+
+# push a branch, e.g.
+# `$ gup` would push the current branch to origin
+# `$ gup issue_1234` would push the branch issue_1234 to origin
+# `$ gup main awesome_feature` would push the branch awesome_feature to main repo
+gup () {
+  if [ $# -eq 0 ]; then
+    branch_name=$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3)
+    git push origin $branch_name
+  else
+    if [ $# -eq 1 ]; then
+      git push origin $1
+    else
+      git push $1 $2
+    fi
+  fi
+}
+
+# force push a branch
+# same as `gup`, but all push are forced.
+# This doesn't allow forced push on main repo for safety reasons.
+gupf () {
+  branch_name=$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f3)
+  main_repo=$(git remote show -n origin | grep Push | cut -d":" -f3 | cut -d"/" -f1)
+
+  if [ $# -eq 0 ]; then
+    git push --force origin $branch_name
+  else
+    if [ $# -eq 1 ]; then
+      git push --force origin $1
+    else
+      if [ "$1" = "$main_repo" ]; then
+        echo "Aborted. Forced push on main repo master is not safe."; return
+      else
+        git push --force $1 $2
+      fi
+    fi
+  fi
+}
+
+# commit all changes
+# e.g. $ gc 'this is a commit message'
+gc () {
+  if [ $# -eq 0 ]; then
+    git commit -a $2
+  else
+    git commit -am "$1" $2
+  fi
+}
+
+# pull from a branch
+# e.g. $ gp feature_branch
+gp () {
+  git pull origin $1
+}
+
+# add a branch
+# e.g. $ gba issue_1234
+# would create a branch called issue_1234 tracking master branch from origin
+#
+# e.g. $ gba progress awesome_feature
+# would create a branch called awesome_feature_progress tracking awesome_feature branch from origin
+gba () {
+  if [ $# -eq 1 ]; then
+    git checkout -b $1 origin/master
+  else
+    git checkout -b $2_$1 origin/$2
+  fi
+}
+
+# Submit a pull request from the currenct branch, e.g.
+# $ greq
+# would submit a PR from forked repo's current branch to the main repo's master.
+#
+# $ greq awesome_feature
+# would submit a PR from forked repo's current branch to the main repo's awesome_feature.
+#
+# $ greq main:master main:awesome_feature
+# would submit a PR from main repo's awesome_feature to the main repo's master.
+greq () {
+  branch_name=$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f3)
+  main_repo=$(git remote show -n origin | grep Fetch | cut -d":" -f3 | cut -d"/" -f1)
+  forked_repo=$(git remote show -n origin | grep Push | cut -d":" -f3 | cut -d"/" -f1)
+
+  if [ $# -eq 0 ]; then
+    git pull-request -b $main_repo:master -h $forked_repo:$branch_name
+  else
+    if [ $# -eq 1 ]; then
+      git pull-request -b $main_repo:$1 -h $forked_repo:$branch_name
+    else
+      git pull-request -b $1 -h $2
+    fi
+  fi
+}
+
+# Specify the remote branch that your local branch should track
+# e.g. $ gbt issue_1234 awesome_feature
+# would set your local issue_1234 branch to track the awesome_feature branch on origin
+gbt () {
+  if [ $# -eq 2 ]; then
+    git branch --set-upstream-to=origin/$2 $1
+  else
+    if [ $# -eq 1 ]; then
+      branch_name=$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f3)
+      git branch --set-upstream-to=origin/$1 $branch_name
+    else
+      echo "must supply a local branch name and a remote branch name. e.g. $ gbt issue_1234 feature_branch"; return
+    fi
+  fi
+}
+
+# Delete a local branch
+# e.g. gbd issue_1234
+gbd () {
+  if [ $# -ne 1 ]; then
+    echo "must supply branch name to delete"; return
+  fi
+  git branch -D $1
+  if [ "$?" -ne "0" ]; then
+    git checkout master
+    git branch -D $1
+  fi
+}
+
+# Delete all local branches that start with the supplied argument.
+# This is not really useful until our team have a release cycle.
+# For example, if our team release weekly, we would most likely have a release branch
+# on our main repo for each running week; let's call this branch week3. So, each feature
+# or bug fix that track this release branch would be called week3_issue_1234 or week3_awesome_feature.
+# When we move to a new release cycle, we can remove branches for old cycles with
+# e.g. $ gbdm week3
+# which would remove all local branches starting with 'week3'
+gbdm () {
+  if [ $# -eq 0 ]; then
+    echo "must supply branch tag as only argument"; return
+  fi
+  git branch -D `git for-each-ref --format="%(refname:short)" refs/heads/$1\*`;
+  if [ "$?" -ne "0" ]; then
+    git checkout master
+    gibdm $1
+  fi;
+}
+
+# Check out a pull request from github
+# e.g. $ grev 1234
+# would pull the changes from the pull request number 1234 from origin
+# and create a local branch named PR_1234 so you can test the code in
+# your own environment.
+grev () {
+  git fetch origin pull/$1/head:PR_$1;
+  git checkout PR_$1;
+}
+
+#### End git shortcuts
+
