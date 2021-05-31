@@ -1,12 +1,5 @@
 #!/bin/sh -x
 
-# Include this file in ~/.bash_profile as followed:
-# source ~/.git_aliases
-
-
-#### setting hub alias
-eval "$(hub alias -s)"
-
 #### git shortcuts
 # Note: These shortcuts are made to simplify the workflow where
 # the fetch target of origin is the main repo, while
