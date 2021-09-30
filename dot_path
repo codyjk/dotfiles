@@ -1,0 +1,2 @@
+export PATH="$PATH:/Users/cody/.brew/bin"
+export PATH="$PATH:/Users/cody/.chezmoi/bin"
