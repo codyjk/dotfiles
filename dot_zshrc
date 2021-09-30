@@ -1,5 +1,6 @@
 source ~/.path
-source ~/.export
+source ~/.exports
 source ~/.aliases
+source ~/.git_aliases
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
