@@ -48,3 +48,5 @@ alias reload="exec $SHELL -l"
 
 # Weather
 alias weather="curl http://v2.wttr.in/"
+
+alias ibrew="arch -x86_64 /usr/local/bin/brew"
