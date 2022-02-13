@@ -4,3 +4,4 @@ source ~/.aliases
 source ~/.git_aliases
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(starship init zsh)"
