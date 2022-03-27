@@ -1,3 +1,2 @@
-export PATH="$PATH:/Users/cody/.brew/bin"
-export PATH="$PATH:/Users/cody/.chezmoi/bin"
-export PATH="$PATH:/usr/local/opt/python@3.7/bin"
+export PATH="$PATH:$HOME/.brew/bin"
+export PATH="$PATH:$HOME/.chezmoi/bin"

@@ -56,7 +56,7 @@ filetype indent on
 " Set up theme and colors. Silence any colorscheme errors since it won't be
 " present the first time vimrc is loaded
 set termguicolors
-colorscheme gruvbox
+silent! colorscheme gruvbox
 set background=dark
 
 " Disabling the directional keys
@@ -112,7 +112,6 @@ autocmd BufWritePre * :%s/\s\+$//e
 " simple navigation through clist
 noremap <C-n> :cn<cr>
 
-
 " allow project specific stuff
 set exrc
 set secure
@@ -123,8 +122,3 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-
-" cairo lang config
-" https://github.com/ericglau/cairo-ls/blob/be4128de2e6464bec7be89f4e74920771d662d74/VIM.md
-au BufReadPost *.cairo set filetype=cairo
-au Filetype cairo set syntax=cairo
