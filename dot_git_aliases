@@ -20,8 +20,11 @@ alias grsh='git reset --soft HEAD\^'
 alias grc='git rebase --continue'
 alias gra='git rebase --abort'
 alias gstat='git diff --stat'
-alias gre='git fetch origin && git rebase origin/master'
+alias gre='git fetch origin && git rebase origin/main'
 alias gg='git grep'
+
+alias gm='gh pr merge -d'
+alias gpr='gh pr create -r @loop-payments/Engineer -a codyjk'
 
 # push a branch, e.g.
 # `$ gup` would push the current branch to origin
