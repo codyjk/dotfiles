@@ -13,3 +13,6 @@ nvm install node
 # fzf (ignoring user prompts)
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --no-bash --no-zsh --no-fish
+
+# asdf
+~/.brew/bin/brew install asdf

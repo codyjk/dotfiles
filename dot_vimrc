@@ -13,6 +13,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'flazz/vim-colorschemes'
 Plug 'morhetz/gruvbox'
 Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-vinegar'
 call plug#end()
 
 " Cancel the compatibility with Vi. Essential if you want
@@ -47,6 +48,9 @@ set hidden
 
 " Enable syntax highlighting
 syntax enable
+
+" Use new regular expression engine
+set re=0
 
 " Enable file specific behavior like syntax highlighting and indentation
 filetype on
@@ -122,3 +126,17 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" netrw file explorer config
+
+" default to tree view
+let g:netrw_liststyle = 3
+
+" width of explorer is 20% of window
+let g:netrw_winsize = 20
+
+" close explorer after selecting file
+let g:netrw_altv = 0
+
+" typescript highlighting for prisma
+autocmd BufNewFile,BufRead *.prisma set syntax=typescript

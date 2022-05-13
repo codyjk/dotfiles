@@ -1,7 +1,3 @@
 [user]
 name = Cody Joseph Krainock
 email = me@codyjoseph.com
-signingkey = 10AF70CE5DEAE245
-
-[commit]
-gpgsign = true
