@@ -12,4 +12,4 @@ export NVM_DIR="$HOME/.nvm"
 
 . "$HOME/.brew/opt/asdf/libexec/asdf.sh"
 
-source "$HOME/.vim/bundle/gruvbox/gruvbox_256palette.sh"
+source "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh"
