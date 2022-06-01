@@ -61,7 +61,7 @@ filetype indent on
 " present the first time vimrc is loaded
 set termguicolors
 silent! colorscheme gruvbox
-set background=dark
+set background=light
 
 " Disabling the directional keys
 map <up> <nop>
@@ -76,13 +76,13 @@ imap <right> <nop>
 " Set <Leader>
 let mapleader = ","
 
-" show existing tab with 4 spaces width
-set tabstop=4
+" show existing tab with 2 spaces width
+set tabstop=2
 
-" when indenting with '>', use 4 spaces width
-set shiftwidth=4
+" when indenting with '>', use 2 spaces width
+set shiftwidth=2
 
-" On pressing tab, insert 4 spaces
+" On pressing tab, insert 2 spaces
 set expandtab
 
 " Statusline
@@ -127,8 +127,15 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" netrw file explorer config
+" auto-completion: https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" use <tab> for trigger completion and navigate to the next complete item
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+
+
+" netrw file explorer config
 " default to tree view
 let g:netrw_liststyle = 3
 
@@ -140,3 +147,4 @@ let g:netrw_altv = 0
 
 " typescript highlighting for prisma
 autocmd BufNewFile,BufRead *.prisma set syntax=typescript
+
