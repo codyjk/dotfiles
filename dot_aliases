@@ -50,3 +50,6 @@ alias reload="exec $SHELL -l"
 alias weather="curl http://v2.wttr.in/"
 
 alias ibrew="arch -x86_64 /usr/local/bin/brew"
+
+# Force nvim
+alias vim="nvim"
