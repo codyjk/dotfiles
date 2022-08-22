@@ -10,7 +10,7 @@
 alias gl='git log'
 alias gs='git status'
 alias gch='git checkout'
-alias gb='git branch'
+alias gb='git checkout $(git branch | fzf --prompt="Checkout which branch? ")'
 alias gf='git fetch'
 alias gpr='git pull --rebase'
 alias gsh='git stash'
@@ -26,43 +26,19 @@ alias gg='git grep'
 alias gm='gh pr merge -d'
 alias gpr='gh pr create -r @loop-payments/Engineer -a codyjk'
 
-# push a branch, e.g.
-# `$ gup` would push the current branch to origin
-# `$ gup issue_1234` would push the branch issue_1234 to origin
-# `$ gup main awesome_feature` would push the branch awesome_feature to main repo
-gup () {
-  if [ $# -eq 0 ]; then
-    branch_name=$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f 3)
-    git push origin $branch_name
-  else
-    if [ $# -eq 1 ]; then
-      git push origin $1
-    else
-      git push $1 $2
-    fi
-  fi
+gnew() {
+    # make a new branch prefixed with evan/
+    # convert all arguments to dash-separated string
+    branch_name=$(echo "$@" | tr ' ' '-')
+    git checkout -b "codyjk/$branch_name"
 }
 
-# force push a branch
-# same as `gup`, but all push are forced.
-# This doesn't allow forced push on main repo for safety reasons.
-gupf () {
-  branch_name=$(git symbolic-ref HEAD 2>/dev/null | cut -d"/" -f3)
-  main_repo=$(git remote show -n origin | grep Push | cut -d":" -f3 | cut -d"/" -f1)
+gup () {
+  git push origin HEAD
+}
 
-  if [ $# -eq 0 ]; then
-    git push --force origin $branch_name
-  else
-    if [ $# -eq 1 ]; then
-      git push --force origin $1
-    else
-      if [ "$1" = "$main_repo" ]; then
-        echo "Aborted. Forced push on main repo master is not safe."; return
-      else
-        git push --force $1 $2
-      fi
-    fi
-  fi
+gupf () {
+  git push origin HEAD -f
 }
 
 # commit all changes

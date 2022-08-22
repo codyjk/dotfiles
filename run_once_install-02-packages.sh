@@ -16,3 +16,6 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 
 # asdf
 ~/.brew/bin/brew install asdf
+
+# ripgrep
+brew install rg
