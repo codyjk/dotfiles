@@ -10,10 +10,17 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'flazz/vim-colorschemes'
-Plug 'morhetz/gruvbox'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-vinegar'
+Plug 'vimwiki/vimwiki'
+Plug 'github/copilot.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'ruifm/gitlinker.nvim'
+Plug 'sainnhe/everforest'
+Plug 'weirongxu/plantuml-previewer.vim'
+Plug 'tyru/open-browser.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 call plug#end()
 
 " Cancel the compatibility with Vi. Essential if you want
@@ -59,9 +66,15 @@ filetype indent on
 
 " Set up theme and colors. Silence any colorscheme errors since it won't be
 " present the first time vimrc is loaded
-set termguicolors
-silent! colorscheme gruvbox
-set background=light
+" https://github.com/tmux/tmux/issues/1246
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+silent! colorscheme everforest
+set background=dark
+let g:everforest_background = 'soft'
 
 " Disabling the directional keys
 map <up> <nop>
@@ -91,11 +104,6 @@ set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l/%3L,%02c%03V%)
 
 " Line length marker
 set colorcolumn=80
-
-" FZF fuzzy finder
-noremap <C-p> :GFiles <CR>
-noremap <Leader>b :Buffers <CR>
-noremap <Leader>h :Help <CR>
 
 " Ctrl-l to remove highlighted stuff
 nmap <Leader>x :nohl <CR>
@@ -145,6 +153,15 @@ let g:netrw_winsize = 20
 " close explorer after selecting file
 let g:netrw_altv = 0
 
+" telescope
+nnoremap <leader>f <cmd>Telescope<cr>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <C-p> <cmd>Telescope git_files<CR>
+nnoremap <leader>b <cmd>Telescope buffers<CR>
+nnoremap <leader>h <cmd>Telescope help_tags<CR>
+
 " typescript highlighting for prisma
 autocmd BufNewFile,BufRead *.prisma set syntax=typescript
-
