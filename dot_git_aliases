@@ -33,6 +33,9 @@ gnew() {
     git checkout -b "codyjk/$branch_name"
 }
 
+# Payments PR
+alias ppr='gh pr create -r @loop-payments/payment-pod -r maxh -a codyjk -l pod/payments';
+
 gup () {
   git push origin HEAD
 }
