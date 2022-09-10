@@ -11,9 +11,9 @@ local on_attach = function(_, buffer)
 	vim.keymap.set("n", "gd", function()
 		vim.lsp.buf.definition()
 	end, opts)
-	vim.keymap.set("n", "K", function()
-		vim.lsp.buf.hover()
-	end, opts)
+	-- vim.keymap.set("n", "K", function()
+	-- 	vim.lsp.buf.hover()
+	-- end, opts)
 	vim.keymap.set("n", "gi", function()
 		vim.lsp.buf.implementation()
 	end, opts)
@@ -37,7 +37,11 @@ local on_attach = function(_, buffer)
 	end, opts)
 end
 
-local opts = { on_attach = on_attach }
+-- Set up lspconfig.
+local cmp = require("cmp_nvim_lsp")
+local capabilities = cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+local opts = { on_attach = on_attach, capabilities = capabilities }
 local mason_lspconfig = require("mason-lspconfig")
 local lspconfig = require("lspconfig")
 
@@ -48,6 +52,7 @@ mason_lspconfig.setup_handlers({
     function(server_name) -- Default handler (optional)
         lspconfig[server_name].setup {
             on_attach = opts.on_attach,
+						capabilities = opts.capabilities,
         }
     end,
 
@@ -67,4 +72,3 @@ mason_lspconfig.setup_handlers({
         })
     end,
 })
-
