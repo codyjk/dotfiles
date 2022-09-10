@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# neovim
+~/.brew/bin/brew install neovim
+
 # starship prompt
 ~/.brew/bin/brew install starship
 
