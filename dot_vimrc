@@ -134,9 +134,9 @@ set exrc
 set secure
 
 " copilot config
-" need to map completion to C-J instead of <CR> to make room for coc.nvim
-imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
+imap <expr> <Plug>(vimrc:copilot-dummy-map) copilot#Accept("\<Tab>")
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 
 " netrw file explorer config
 " default to tree view

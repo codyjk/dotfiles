@@ -21,14 +21,14 @@ cmp.setup({
 				['<C-Space>'] = cmp.mapping.complete(),
 				['<C-e>'] = cmp.mapping.abort(),
 				['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-				['<Tab>'] = function(fallback)
+				['<C-n>'] = function(fallback)
 					if cmp.visible() then
 						cmp.select_next_item()
 					else
 						fallback()
 					end
 				end,
-				['<S-Tab>'] = function(fallback)
+				['<C-p>'] = function(fallback)
 					if cmp.visible() then
 						cmp.select_prev_item()
 					else
@@ -46,6 +46,18 @@ cmp.setup({
 				{ name = 'buffer' },
 			})
 	})
+
+-- copilot compatibility
+cmp.setup {
+	mapping = {
+		['<C-g>'] = cmp.mapping(function(fallback)
+			vim.api.nvim_feedkeys(vim.fn['copilot#Accept'](vim.api.nvim_replace_termcodes('<Tab>', true, true, true)), 'n', true)
+		end)
+	},
+	experimental = {
+		ghost_text = false -- this feature conflict with copilot.vim's preview.
+	}
+}
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
