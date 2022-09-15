@@ -8,7 +8,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-vinegar'
 Plug 'github/copilot.vim'
@@ -159,3 +158,6 @@ nnoremap <leader>h <cmd>Telescope help_tags<CR>
 
 " typescript highlighting for prisma
 autocmd BufNewFile,BufRead *.prisma set syntax=typescript
+
+" completion
+set completeopt=menu,menuone,noselect
