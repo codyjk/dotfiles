@@ -38,11 +38,14 @@ local on_attach = function(_, buffer)
 	vim.keymap.set("n", "<leader>", function()
 		vim.lsp.buf.formatting()
 	end, opts)
+	vim.keymap.set("n", "<leader>e", function()
+		vim.diagnostic.open_float()
+	end, opts)
 end
 
 -- Set up lspconfig.
 local cmp = require("cmp_nvim_lsp")
-local capabilities = cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = cmp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local opts = { on_attach = on_attach, capabilities = capabilities }
 local mason_lspconfig = require("mason-lspconfig")

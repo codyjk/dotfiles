@@ -1213,4 +1213,4 @@ schemes:
 
 
 
-colors: *mocha
+colors: *frappe
