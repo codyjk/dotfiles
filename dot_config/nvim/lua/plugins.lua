@@ -1,5 +1,14 @@
 vim.cmd [[packadd packer.nvim]] -- packadd packer module
 
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+	group = highlight_group,
+	pattern = "*",
+})
+
 return require('packer').startup(function(use)
 	-- make sure to add this line to let packer manage itself
 	use('wbthomason/packer.nvim')
