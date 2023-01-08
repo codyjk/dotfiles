@@ -40,4 +40,10 @@ return require('packer').startup(function(use)
 			},
 			config = function() require("nvim-cmp") end
 		})
-end)
+
+	-- git gutter and inline blame
+	use({
+			"lewis6991/gitsigns.nvim",
+			config = function() require("nvim-gitsigns") end
+		})
+	end)
