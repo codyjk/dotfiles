@@ -62,6 +62,7 @@ return require('packer').startup(function(use)
 			"nvim-telescope/telescope-ui-select.nvim",
 			{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
 		},
+    config = function() require("config/telescope") end
 	})
 	use({
 		"nvim-telescope/telescope-symbols.nvim",
