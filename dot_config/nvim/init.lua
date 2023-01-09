@@ -97,15 +97,5 @@ vim.g.netrw_winsize = 20
 -- close explorer after selecting file
 vim.g.netrw_altv = 0
 
--- telescope
-nmap("<leader>f", "<cmd>Telescope<cr>")
-nmap("<leader>ff", "<cmd>Telescope find_files<cr>")
-nmap("<leader>fg", "<cmd>Telescope live_grep<cr>")
-nmap("<leader>fb", "<cmd>Telescope buffers<cr>")
-nmap("<leader>fh", "<cmd>Telescope help_tags<cr>")
-nmap("<C-p>", "<cmd>Telescope git_files<CR>")
-nmap("<leader>b", "<cmd>Telescope buffers<CR>")
-nmap("<leader>h", "<cmd>Telescope help_tags<CR>")
-
 -- completion
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
