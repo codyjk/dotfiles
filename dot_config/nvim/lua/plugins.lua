@@ -80,6 +80,12 @@ return require('packer').startup(function(use)
     config = function() require("nvim-autopairs").setup {} end
   })
 
+  use({
+    "nvim-lualine/lualine.nvim",
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function() require("config/lualine") end
+  })
+
 	-- migrated from vim
 	use({ "tpope/vim-fugitive" })
 	use({ "tpope/vim-rhubarb" })

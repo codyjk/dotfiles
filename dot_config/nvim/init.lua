@@ -57,9 +57,6 @@ vim.opt.shiftwidth = 2
 -- On pressing tab, insert 2 spaces
 vim.opt.expandtab = true
 
--- Statusline
-vim.opt.laststatus = 2
-
 -- Line length marker
 vim.opt.colorcolumn = "80"
 
