@@ -43,4 +43,50 @@ return require('packer').startup(function(use)
 			"lewis6991/gitsigns.nvim",
 			config = function() require("config/gitsigns") end
 		})
-	end)
+
+	use({
+		"catppuccin/nvim",
+		as = "catppuccin",
+    config = function() require("config/catppuccin") end
+	})
+	-- needed for telescope
+	use({
+		"nvim-telescope/telescope.nvim",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"BurntSushi/ripgrep",
+			"nvim-telescope/telescope-fzf-native.nvim",
+			"nvim-telescope/telescope-github.nvim",
+			"sharkdp/fd",
+			"kyazdani42/nvim-web-devicons",
+			"nvim-telescope/telescope-ui-select.nvim",
+			{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
+		},
+	})
+	use({
+		"nvim-telescope/telescope-symbols.nvim",
+		requires = { "nvim-telescope/telescope.nvim" },
+	})
+
+	use({ "github/copilot.vim" })
+	use({
+    "ruifm/gitlinker.nvim",
+    requires = 'nvim-lua/plenary.nvim',
+    config = function() require("config/gitlinker") end
+  })
+
+	use({
+    "windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
+  })
+
+	-- migrated from vim
+	use({ "tpope/vim-fugitive" })
+	use({ "tpope/vim-rhubarb" })
+	use({ "tpope/vim-surround" })
+	use({ "rust-lang/rust.vim" })
+	use({ "christoomey/vim-tmux-navigator" })
+	use({ "tpope/vim-vinegar" })
+	use({ "weirongxu/plantuml-previewer.vim" })
+	use({ "nvim-lua/plenary.nvim" })
+end)
