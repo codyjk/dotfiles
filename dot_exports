@@ -22,4 +22,4 @@ export MANPAGER='less -X';
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
 # https://github.com/jackMort/ChatGPT.nvim
-export OPENAI_API_KEY='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'
+export OPENAI_API_KEY='sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
