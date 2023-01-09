@@ -86,6 +86,21 @@ return require('packer').startup(function(use)
     config = function() require("config/lualine") end
   })
 
+  -- Packer
+  use({
+    "jackMort/ChatGPT.nvim",
+    config = function()
+      require("chatgpt").setup({
+        -- optional configuration
+      })
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
+  })
+
 	-- migrated from vim
 	use({ "tpope/vim-fugitive" })
 	use({ "tpope/vim-rhubarb" })
