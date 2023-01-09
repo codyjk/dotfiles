@@ -16,19 +16,16 @@ return require('packer').startup(function(use)
 	-- LSP
 	use({
 			"williamboman/mason.nvim",
-			config = function() require("mason").setup() end
 		})
 	use({
 			"williamboman/mason-lspconfig.nvim",
 			requires = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
-			config = function()
-				require("mason").setup()
-				require("mason-lspconfig").setup({
-						ensure_installed = { "tsserver", "rust_analyzer", "sumneko_lua" }
-					})
-			end
+			config = function () require("config/mason-lspconfig") end
 		})
-	use({ "neovim/nvim-lspconfig", config = function() require("lsp") end })
+	use({
+			"neovim/nvim-lspconfig",
+			config = function() require("config/lsp") end
+		})
 
 	-- auto-complete
 	use({
@@ -38,12 +35,12 @@ return require('packer').startup(function(use)
 				"hrsh7th/cmp-cmdline", "hrsh7th/cmp-vsnip", "hrsh7th/vim-vsnip",
 				"onsails/lspkind.nvim"
 			},
-			config = function() require("nvim-cmp") end
+			config = function() require("config/nvim-cmp") end
 		})
 
 	-- git gutter and inline blame
 	use({
 			"lewis6991/gitsigns.nvim",
-			config = function() require("nvim-gitsigns") end
+			config = function() require("config/gitsigns") end
 		})
 	end)
