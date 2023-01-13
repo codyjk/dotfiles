@@ -87,6 +87,21 @@ return require('packer').startup(function(use)
     config = function() require("config/lualine") end
   })
 
+  -- plantuml
+	use({
+    "weirongxu/plantuml-previewer.vim",
+    requires = {
+      "tyru/open-browser.vim",
+      "aklt/plantuml-syntax"
+    }
+  })
+
+  -- markdown
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
+
   -- Packer
   use({
     "jackMort/ChatGPT.nvim",
@@ -102,6 +117,7 @@ return require('packer').startup(function(use)
     }
   })
 
+
 	-- migrated from vim
 	use({ "tpope/vim-fugitive" })
 	use({ "tpope/vim-rhubarb" })
@@ -109,6 +125,5 @@ return require('packer').startup(function(use)
 	use({ "rust-lang/rust.vim" })
 	use({ "christoomey/vim-tmux-navigator" })
 	use({ "tpope/vim-vinegar" })
-	use({ "weirongxu/plantuml-previewer.vim" })
 	use({ "nvim-lua/plenary.nvim" })
 end)
