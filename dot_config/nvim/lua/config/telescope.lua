@@ -10,7 +10,6 @@ end
 
 nmap("<leader>f", builtins.builtin)
 nmap("<leader>ff", builtins.find_files)
-nmap("<C-t>", builtins.find_files)
 nmap("<leader>fg", builtins.live_grep)
 nmap("<C-p>", builtins.git_files)
 nmap("<leader>b", builtins.buffers)
