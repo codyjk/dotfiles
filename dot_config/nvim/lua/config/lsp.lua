@@ -56,8 +56,8 @@ mason_lspconfig.setup_handlers({
     }
   end,
 
-  ['sumneko_lua'] = function()
-    lspconfig.sumneko_lua.setup({
+  ['lua_ls'] = function()
+    lspconfig.lua_ls.setup({
       on_attach = opts.on_attach,
       settings = { Lua = { diagnostics = { globals = { "vim", "use" } } } }
     })
