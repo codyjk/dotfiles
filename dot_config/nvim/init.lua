@@ -48,6 +48,9 @@ imap("<down>", "<nop>")
 imap("<left>", "<nop>")
 imap("<right>", "<nop>")
 
+-- Disabling the mouse
+vim.opt.mouse = ""
+
 -- show existing tab with 2 spaces width
 vim.opt.tabstop = 2
 
