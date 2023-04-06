@@ -52,4 +52,8 @@ alias weather="curl http://v2.wttr.in/"
 alias ibrew="arch -x86_64 /usr/local/bin/brew"
 
 # Force nvim
+alias vi="nvim"
 alias vim="nvim"
+
+# Tests
+alias t='yarn test:watch';
