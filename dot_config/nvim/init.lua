@@ -90,15 +90,8 @@ vim.g.copilot_no_tab_map = true
 vim.api.nvim_set_keymap('i', '<C-J>', 'copilot#Accept("<CR>")', {expr=true, silent=true})
 vim.g.copilot_node_command = "/Users/cjk/.asdf/installs/nodejs/17.9.1/bin/node"
 
--- netrw file explorer config
--- default to tree view
-vim.g.netrw_liststyle = 3
-
--- width of explorer is 20% of window
-vim.g.netrw_winsize = 20
-
--- close explorer after selecting file
-vim.g.netrw_altv = 0
+-- oil file navigation config
+vim.api.nvim_set_keymap("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- completion
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
