@@ -60,7 +60,6 @@ return require('packer').startup(function(use)
 			"sharkdp/fd",
 			"kyazdani42/nvim-web-devicons",
 			"nvim-telescope/telescope-ui-select.nvim",
-			{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
 		},
     config = function() require("config/telescope") end
 	})
@@ -117,6 +116,33 @@ return require('packer').startup(function(use)
     }
   })
 
+  -- treesitter
+  use({
+    "nvim-treesitter/nvim-treesitter",
+    requires = {
+      "nvim-treesitter/nvim-treesitter-context"
+    },
+    run = ":TSUpdate"
+  })
+
+  -- codegpt
+  use({
+    "dpayne/CodeGPT.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+    }
+  })
+
+  -- oil (netrw replacement)
+  use({
+    "stevearc/oil.nvim",
+    config = function ()
+      require("oil").setup({
+        -- optional configuration
+      })
+    end,
+  })
 
 	-- migrated from vim
 	use({ "tpope/vim-fugitive" })
