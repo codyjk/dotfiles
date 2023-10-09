@@ -1,4 +1,7 @@
-local on_attach = function(_, buffer)
+local on_attach = function(client, buffer)
+  -- Disable syntax highlighting from LSP since we are using treesitter
+  client.server_capabilities.semanticTokensProvider = nil
+
   local opts = { noremap = true, silent = true, buffer = buffer }
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(buffer, "omnifunc", "v:lua.vim.lsp.omnifunc")

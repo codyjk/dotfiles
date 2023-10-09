@@ -10,6 +10,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 return require('packer').startup(function(use)
+  -- theme
+  use ({
+    "ellisonleao/gruvbox.nvim",
+    config = function() require("config/gruvbox") end
+  })
+
 	-- make sure to add this line to let packer manage itself
 	use('wbthomason/packer.nvim')
 
@@ -43,10 +49,6 @@ return require('packer').startup(function(use)
 			"lewis6991/gitsigns.nvim",
 			config = function() require("config/gitsigns") end
 		})
-  use({
-    'kvrohit/rasmus.nvim',
-    config = function() require("config/rasmus") end
-  })
 	-- needed for telescope
 	use({
 		"nvim-telescope/telescope.nvim",
@@ -120,6 +122,7 @@ return require('packer').startup(function(use)
     requires = {
       "nvim-treesitter/nvim-treesitter-context"
     },
+    config = function() require("config/treesitter") end,
     run = ":TSUpdate"
   })
 
