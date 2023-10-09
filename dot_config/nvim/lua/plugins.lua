@@ -12,8 +12,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 return require('packer').startup(function(use)
   -- theme
   use ({
-    "ellisonleao/gruvbox.nvim",
-    config = function() require("config/gruvbox") end
+    'shaunsingh/nord.nvim',
+    config = function() require("config/nord") end
   })
 
 	-- make sure to add this line to let packer manage itself
