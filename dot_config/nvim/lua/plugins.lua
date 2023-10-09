@@ -43,12 +43,10 @@ return require('packer').startup(function(use)
 			"lewis6991/gitsigns.nvim",
 			config = function() require("config/gitsigns") end
 		})
-
-	use({
-		"catppuccin/nvim",
-		as = "catppuccin",
-    config = function() require("config/catppuccin") end
-	})
+  use({
+    'kvrohit/rasmus.nvim',
+    config = function() require("config/rasmus") end
+  })
 	-- needed for telescope
 	use({
 		"nvim-telescope/telescope.nvim",
