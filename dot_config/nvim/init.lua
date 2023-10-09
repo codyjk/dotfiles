@@ -95,3 +95,6 @@ vim.api.nvim_set_keymap("n", "-", "<CMD>Oil<CR>", { desc = "Open parent director
 
 -- completion
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+-- theme
+vim.cmd[[colorscheme nord]]
