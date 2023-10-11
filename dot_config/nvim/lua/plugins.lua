@@ -58,7 +58,7 @@ return require('packer').startup(function(use)
 			"nvim-telescope/telescope-fzf-native.nvim",
 			"nvim-telescope/telescope-github.nvim",
 			"sharkdp/fd",
-			"kyazdani42/nvim-web-devicons",
+			"nvim-tree/nvim-web-devicons",
 			"nvim-telescope/telescope-ui-select.nvim",
 		},
     config = function() require("config/telescope") end
