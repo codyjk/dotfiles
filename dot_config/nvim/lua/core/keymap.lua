@@ -26,6 +26,10 @@ nmap("<Leader>x", ":nohl <CR>")
 -- Go to next item in clist
 nmap("<C-n>", ":cn<cr>")
 
+-- Clear search highlights
+nmap("<Leader>x", ":nohl<CR>")
+
+
 -- remove trailing whitespace on save
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*" },
