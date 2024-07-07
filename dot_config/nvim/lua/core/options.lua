@@ -4,7 +4,6 @@ vim.opt.number = true                 -- Display line numbers
 vim.opt.ruler = true                  -- Display cursor position
 vim.opt.wrap = true                   -- Wrap lines when they are too long
 vim.opt.scrolloff = 3                 -- Display at least 3 lines around you cursor (for scrolling)
-vim.opt.guioptions = 'T'              -- Enable the toolbar
 
 -- Search
 vim.opt.ignorecase = true             -- Ignore case when searching
