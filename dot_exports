@@ -20,6 +20,3 @@ export MANPAGER='less -X';
 
 # Don't show the zshell message on login
 export BASH_SILENCE_DEPRECATION_WARNING=1
-
-# https://github.com/jackMort/ChatGPT.nvim
-export OPENAI_API_KEY='sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
