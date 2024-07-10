@@ -1,9 +1,9 @@
-local map = function(mode, lhs, rhs, desc)
-	vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc })
+local map = function(mode, lhs, rhs)
+	vim.keymap.set(mode, lhs, rhs, { silent = true })
 end
 
-local lsp_map = function(lhs, rhs, bufnr, desc)
-	vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr, desc = desc })
+local lsp_map = function(lhs, rhs, bufnr)
+	vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr })
 end
 
 local set_leader = function(key)
@@ -16,13 +16,13 @@ return {
 	map = map,
 	lsp_map = lsp_map,
 	set_leader = set_leader,
-	nmap = function(lhs, rhs, desc)
-		map("n", lhs, rhs, desc)
+	nmap = function(lhs, rhs)
+		map("n", lhs, rhs)
 	end,
-	vmap = function(lhs, rhs, desc)
-		map("v", lhs, rhs, desc)
+	vmap = function(lhs, rhs)
+		map("v", lhs, rhs)
 	end,
-	imap = function(lhs, rhs, desc)
-		map("i", lhs, rhs, desc)
+	imap = function(lhs, rhs)
+		map("i", lhs, rhs)
 	end,
 }
