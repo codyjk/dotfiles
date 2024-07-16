@@ -118,6 +118,7 @@ return {
 				},
 			})
 
+      -- JSON
 			lspconfig["jsonls"].setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
@@ -128,6 +129,8 @@ return {
 					},
 				},
 			})
+
+      -- YAML
 			lspconfig["yamlls"].setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
@@ -144,6 +147,44 @@ return {
 					},
 				},
 			})
+
+      -- Rust
+      lspconfig["rust_analyzer"].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          ["rust-analyzer"] = {
+            assist = {
+              importPrefix = "by_self",
+              importGranularity = "module",
+              importPrefixInsert = "auto",
+            },
+            cargo = {
+              loadOutDirsFromCheck = true,
+              autoreload = true,
+              allFeatures = true,
+              noDefaultFeatures = true,
+              features = {
+                "all",
+              },
+            },
+          }
+        },
+        init_options = {
+          cargo = {
+            loadOutDirsFromCheck = true,
+            autoreload = true,
+            allFeatures = true,
+            noDefaultFeatures = true,
+            features = {
+              "all",
+            },
+          },
+          procMacro = {
+            enable = true,
+          },
+        },
+      })
 		end,
 	},
 }
