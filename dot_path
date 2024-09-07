@@ -1,3 +1,4 @@
 export PATH="$PATH:$HOME/.brew/bin"
 export PATH="$PATH:$HOME/.chezmoi/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="$PATH:$HOME/.local/bin"
