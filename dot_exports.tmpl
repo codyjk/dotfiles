@@ -20,3 +20,6 @@ export MANPAGER='less -X';
 
 # Don't show the zshell message on login
 export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# API keys
+export ANTHROPIC_API_KEY="{{ (index (onepassword "aktbzrmt5tmafpm4iw7gnz45jm").fields 0).value }}"
