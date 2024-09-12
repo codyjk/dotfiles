@@ -5,19 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# History options
-HISTFILE=~/.zsh_history
-HISTSIZE=100000
-SAVEHIST=100000
-
-setopt HIST_IGNORE_DUPS   # Ignore duplicate commands
-setopt HIST_IGNORE_ALL_DUPS  # Remove older duplicate commands from history
-setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before storing commands in history
-setopt HIST_VERIFY   # Edit a recalled history entry before executing
-setopt SHARE_HISTORY  # Share history between all sessions
-setopt INC_APPEND_HISTORY  # Append history incrementally
-setopt HIST_SAVE_NO_DUPS   # Don’t write duplicate commands to the history file
-
 source ~/.path
 source ~/.exports
 source ~/.aliases
