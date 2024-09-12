@@ -1,9 +1,17 @@
 # Make neovim the default editor.
 export EDITOR='nvim';
 
-# Increase Bash history size. Allow 32³ entries; the default is 500.
-export HISTSIZE='32768';
-export HISTFILESIZE="${HISTSIZE}";
+# History options
+export HISTFILE=~/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=100000
+setopt HIST_IGNORE_DUPS   # Ignore duplicate commands
+setopt HIST_IGNORE_ALL_DUPS  # Remove older duplicate commands from history
+setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before storing commands in history
+setopt HIST_VERIFY   # Edit a recalled history entry before executing
+setopt SHARE_HISTORY  # Share history between all sessions
+setopt INC_APPEND_HISTORY  # Append history incrementally
+setopt HIST_SAVE_NO_DUPS   # Don’t write duplicate commands to the history file
 
 # Omit duplicates and commands that begin with a space from history.
 export HISTCONTROL='ignoreboth';
