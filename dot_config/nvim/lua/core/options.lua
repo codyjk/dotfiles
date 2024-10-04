@@ -36,9 +36,6 @@ vim.opt.expandtab = true
 -- Line length marker
 vim.opt.colorcolumn = "80"
 
--- Use `.bash_profile` and aliases in shell
-vim.opt.shell = "/bin/bash --rcfile ~/.bash_profile"
-
 -- Split down and to the right
 vim.opt.splitbelow = true
 vim.opt.splitright = true
