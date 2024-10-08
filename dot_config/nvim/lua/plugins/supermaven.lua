@@ -9,6 +9,10 @@ return {
           clear_suggestion = "<C-]>",
           accept_word = "<Tab>",
         },
+        condition = function()
+          -- disables supermaven by default
+          return true
+        end,
     })
   end,
 }
