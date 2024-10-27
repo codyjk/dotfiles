@@ -24,10 +24,6 @@ return {
             quotePreference = "single",
             importModuleSpecifierPreference = "non-relative",
             noUnusedParameters = false,
-            autoImportFileExcludePatterns = {
-              "./**/node_modules/@aws-sdk/client-textract/**",
-              "**/node_modules/@aws-sdk/client-textract/**",
-            },
           },
         },
       })
