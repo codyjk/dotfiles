@@ -95,16 +95,33 @@ return {
     })
 
     local lspconfig = require("lspconfig")
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    local on_attach = require("helpers.lsp-on-attach")
 
     -- All languages: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
+    -- Lua
+    lspconfig["lua_ls"].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+    }
+
     -- Python: brew install pyright
-    lspconfig["pyright"].setup {}
+    lspconfig["pyright"].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+    }
 
     -- Rust
-    lspconfig["rust_analyzer"].setup {}
+    lspconfig["rust_analyzer"].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+    }
 
     -- Go: go install golang.org/x/tools/gopls@latest
-    lspconfig["gopls"].setup {}
+    lspconfig["gopls"].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+    }
   end
 }
