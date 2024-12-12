@@ -6,7 +6,7 @@ return {
     {"nvim-treesitter/nvim-treesitter-textobjects"}, -- Syntax aware text-objects
     {
       "nvim-treesitter/nvim-treesitter-context", -- Show code context
-      opts = {enable = true, mode = "topline", line_numbers = true}
+      opts = {enable = false, mode = "topline", line_numbers = true}
     }
   },
   config = function()
@@ -26,12 +26,9 @@ return {
         "gomod",
         "gosum",
         "gowork",
-        "javascript",
-        "json",
         "lua",
         "markdown",
         "python",
-        "rust",
         "vim",
         "vimdoc",
         "sql",
