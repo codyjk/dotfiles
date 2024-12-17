@@ -32,13 +32,22 @@ return {
         "vim",
         "vimdoc",
         "sql",
-        "yaml"
+        "yaml",
+        "typescript",
+        "javascript",
+        "tsx"
       },
       indent = {enable = true},
       auto_install = true,
       sync_install = false,
       highlight = { enable = true },
-      textobjects = {select = {enable = true, lookahead = true}}
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true,
+          disable = { "typescript", "tsx" } -- Temporarily disable for TS/TSX
+        }
+      }
     })
   end
 }
