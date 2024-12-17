@@ -10,6 +10,7 @@ local imap = function(shortcut, command)
   map('i', shortcut, command)
 end
 
+
 -- Disabling the directional keys
 nmap("<up>", "<nop>")
 nmap("<down>", "<nop>")
@@ -30,9 +31,14 @@ nmap("<C-n>", ":cn<cr>")
 nmap("<Leader>x", ":nohl<CR>")
 
 
--- remove trailing whitespace on save
+-- Remove trailing whitespace on save
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*" },
   command = [[%s/\s\+$//e]],
 })
 
+-- Resize windows
+nmap("<A-Up>", ":resize +2<CR>")
+nmap("<A-Down>", ":resize -2<CR>")
+nmap("<A-Left>", ":vertical resize +2<CR>")
+nmap("<A-Right>", ":vertical resize -2<CR>")
