@@ -39,8 +39,8 @@ return {
     },
   },
   opts = {
-    provider = "copilot",
-    auto_suggestions_provider = "copilot",
+    provider = "claude",
+    auto_suggestions_provider = "claude",
     hints = { enabled = false },
     windows = {
       sidebar_header = {
