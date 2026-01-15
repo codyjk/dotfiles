@@ -1,0 +1,6 @@
+# Brewfile - Homebrew dependencies managed by chezmoi
+# Install with: brew bundle install --file=~/.Brewfile
+
+brew "neovim"
+brew "tmux"
+brew "ripgrep"

@@ -3,32 +3,17 @@ return {
   tag = "v0.9.2",
   build = ":TSUpdate",
   dependencies = {
-    {"nvim-treesitter/nvim-treesitter-textobjects"}, -- Syntax aware text-objects
-    {
-      "nvim-treesitter/nvim-treesitter-context", -- Show code context
-      opts = {enable = false, mode = "topline", line_numbers = true}
-    }
+    "nvim-treesitter/nvim-treesitter-textobjects", -- Syntax aware text-objects
   },
   config = function()
     local treesitter = require("nvim-treesitter.configs")
 
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = {"markdown"},
-      callback = function(ev)
-        -- treesitter-context is buggy with Markdown files
-        require("treesitter-context").disable()
-      end
-    })
-
     treesitter.setup({
       ensure_installed = {
-        "go",
-        "gomod",
-        "gosum",
-        "gowork",
         "lua",
         "markdown",
         "python",
+        "rust",
         "vim",
         "vimdoc",
         "sql",

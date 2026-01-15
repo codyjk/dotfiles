@@ -14,10 +14,5 @@ return {
       })
     end,
   },
-  {
-    "ruifm/gitlinker.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    lazy = false,
-  },
   "tpope/vim-fugitive",
 }

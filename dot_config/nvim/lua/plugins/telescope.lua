@@ -6,7 +6,6 @@ return {
       "nvim-lua/plenary.nvim",
       "BurntSushi/ripgrep",
       "nvim-telescope/telescope-fzf-native.nvim",
-      "nvim-telescope/telescope-github.nvim",
       "sharkdp/fd",
       "nvim-tree/nvim-web-devicons",
       "nvim-telescope/telescope-ui-select.nvim",
@@ -22,7 +21,6 @@ return {
       })
       pcall(telescope.load_extension, "fzf")
       telescope.load_extension("ui-select")
-      telescope.load_extension("gh")
       -- Find files using Telescope command-line sugar.
       nmap("<C-p>", builtins.git_files)
       nmap("<leader>ff", builtins.find_files, "[F]ind [F]iles")
@@ -45,9 +43,5 @@ return {
       nmap("<leader>fG", builtins.grep_string, "[F]ind [G]rep string")
       nmap("<leader>fr", builtins.resume, "[F]ind [R]esume")
     end,
-  },
-  {
-    "nvim-telescope/telescope-symbols.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim" },
   },
 }

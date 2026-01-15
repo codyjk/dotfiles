@@ -117,14 +117,5 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
     }
-
-    -- Go: go install golang.org/x/tools/gopls@latest
-    lspconfig["gopls"].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-    }
-
-    -- Protobuf
-    lspconfig["protols"].setup {}
   end
 }

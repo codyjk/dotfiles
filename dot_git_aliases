@@ -17,27 +17,10 @@ alias gre='git fetch origin && git rebase origin/main'
 alias gg='git grep'
 alias gm='gh pr merge -d'
 
-gnew() {
-    # make a new branch prefixed with evan/
-    # convert all arguments to dash-separated string
-    branch_name=$(echo "$@" | tr ' ' '-')
-    git checkout -b "codyjk/$branch_name"
-}
-
 gup () {
   git push origin HEAD
 }
 
 gupf () {
   git push origin HEAD -f
-}
-
-# commit all changes
-# e.g. $ gc 'this is a commit message'
-gc () {
-  if [ $# -eq 0 ]; then
-    git commit -a $2
-  else
-    git commit -am "$1" $2
-  fi
 }
