@@ -1,0 +1,9 @@
+{{ if .modules.python -}}
+#!/bin/bash
+# uv {{ .versions.uv }} comes from .chezmoiexternal. Python {{ .versions.python }}.
+set -eu
+"$HOME/.local/bin/uv" python install --default {{ .versions.python }}
+{{- if .modules.nvim }}
+"$HOME/.local/bin/uv" tool install --upgrade pyright
+{{- end }}
+{{ end -}}

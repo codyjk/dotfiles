@@ -1,0 +1,48 @@
+{{ if and .modules.tmux (not .modules.homebrew) -}}
+#!/bin/bash
+# Build tmux {{ .versions.tmux }} into ~/.local without Homebrew.
+# libevent {{ .versions.libevent }} and utf8proc {{ .versions.utf8proc }} are
+# built static in a temp dir and linked in.
+# tmux 3.7 on macOS requires an explicit utf8proc and jemalloc choice;
+# jemalloc is skipped (system malloc works, one less dependency).
+# Non-fatal: if the build fails, the rest of `chezmoi apply` still runs.
+set -eu
+PREFIX="$HOME/.local"
+if "$PREFIX/bin/tmux" -V 2>/dev/null | grep -qx "tmux {{ .versions.tmux }}"; then
+    exit 0
+fi
+WORK=$(mktemp -d)
+trap 'rm -rf "$WORK"' EXIT
+JOBS=$(/usr/sbin/sysctl -n hw.ncpu)
+
+# `set -e` does not apply inside an `if` condition, so every step is
+# chained with && and the first failure stops the build.
+build() {
+    cd "$WORK" \
+    && echo "Building libevent {{ .versions.libevent }}..." \
+    && curl -fsSL -o libevent.tar.gz "https://github.com/libevent/libevent/releases/download/release-{{ .versions.libevent }}/libevent-{{ .versions.libevent }}.tar.gz" \
+    && tar xzf libevent.tar.gz \
+    && (cd "libevent-{{ .versions.libevent }}" \
+        && ./configure --prefix="$WORK/deps" --disable-openssl --disable-shared --disable-samples --disable-libevent-regress >/dev/null \
+        && make -j"$JOBS" >/dev/null && make install >/dev/null) \
+    && echo "Building utf8proc {{ .versions.utf8proc }}..." \
+    && curl -fsSL -o utf8proc.tar.gz "https://github.com/JuliaStrings/utf8proc/releases/download/v{{ .versions.utf8proc }}/utf8proc-{{ .versions.utf8proc }}.tar.gz" \
+    && tar xzf utf8proc.tar.gz \
+    && (cd "utf8proc-{{ .versions.utf8proc }}" && make -j"$JOBS" libutf8proc.a >/dev/null \
+        && cp libutf8proc.a "$WORK/deps/lib/" && cp utf8proc.h "$WORK/deps/include/") \
+    && echo "Building tmux {{ .versions.tmux }}..." \
+    && curl -fsSL -o tmux.tar.gz "https://github.com/tmux/tmux/releases/download/{{ .versions.tmux }}/tmux-{{ .versions.tmux }}.tar.gz" \
+    && tar xzf tmux.tar.gz \
+    && (cd "tmux-{{ .versions.tmux }}" \
+        && LIBEVENT_CFLAGS="-I$WORK/deps/include" LIBEVENT_LIBS="$WORK/deps/lib/libevent.a" \
+           LIBUTF8PROC_CFLAGS="-I$WORK/deps/include" LIBUTF8PROC_LIBS="$WORK/deps/lib/libutf8proc.a" \
+           CPPFLAGS="-I$WORK/deps/include" LDFLAGS="-L$WORK/deps/lib" \
+           ./configure --prefix="$PREFIX" --enable-utf8proc --disable-jemalloc >/dev/null \
+        && make -j"$JOBS" >/dev/null && make install >/dev/null) \
+    && "$PREFIX/bin/tmux" -V
+}
+
+if ! build; then
+    echo "tmux: build failed; the rest of the setup continues. Re-run with: chezmoi apply" >&2
+fi
+{{ end -}}

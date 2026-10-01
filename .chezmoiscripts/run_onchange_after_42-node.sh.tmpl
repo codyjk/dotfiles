@@ -1,0 +1,11 @@
+{{ if .modules.node -}}
+#!/bin/bash
+# fnm {{ .versions.fnm }} comes from .chezmoiexternal.
+set -eu
+FNM="$HOME/.local/bin/fnm"
+"$FNM" install --lts
+"$FNM" default lts-latest
+{{- if .modules.nvim }}
+"$FNM" exec --using=default npm install --global --silent "typescript@{{ .versions.typescript }}"
+{{- end }}
+{{ end -}}

@@ -1,1 +1,19 @@
 README.md
+{{- if not .modules.prompt }}
+.p10k.zsh
+{{- end }}
+{{- if not .modules.nvim }}
+.config/nvim
+.config/nvim/**
+{{- end }}
+{{- if not .modules.tmux }}
+.config/tmux
+.config/tmux/**
+{{- end }}
+{{- if not .modules.secrets }}
+.config/zsh
+.config/zsh/**
+{{- end }}
+{{- if not .modules.homebrew }}
+.Brewfile
+{{- end }}

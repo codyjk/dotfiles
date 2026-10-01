@@ -1,0 +1,25 @@
+{{- /* Asked once on `chezmoi init`. Change later with `chezmoi init --prompt`. */ -}}
+{{- $prompt   := promptBoolOnce   . "modules.prompt"   "Install the powerlevel10k prompt" true -}}
+{{- $fzf      := promptBoolOnce   . "modules.fzf"      "Install fzf" true -}}
+{{- $nvim     := promptBoolOnce   . "modules.nvim"     "Install neovim with ripgrep and fd" true -}}
+{{- $tmux     := promptBoolOnce   . "modules.tmux"     "Install tmux" true -}}
+{{- $terminal := promptChoiceOnce . "modules.terminal" "Terminal app to install" (list "none" "ghostty") "ghostty" -}}
+{{- $rust     := promptBoolOnce   . "modules.rust"     "Install Rust via rustup" true -}}
+{{- $python   := promptBoolOnce   . "modules.python"   "Install Python via uv" true -}}
+{{- $node     := promptBoolOnce   . "modules.node"     "Install Node via fnm" true -}}
+{{- $gh       := promptBoolOnce   . "modules.gh"       "Install the GitHub CLI" true -}}
+{{- $secrets  := promptBoolOnce   . "modules.secrets"  "Load API keys from 1Password (needs op signed in)" false -}}
+{{- $homebrew := promptBoolOnce   . "modules.homebrew" "Allow Homebrew" false -}}
+
+[data.modules]
+    prompt = {{ $prompt }}
+    fzf = {{ $fzf }}
+    nvim = {{ $nvim }}
+    tmux = {{ $tmux }}
+    terminal = {{ $terminal | quote }}
+    rust = {{ $rust }}
+    python = {{ $python }}
+    node = {{ $node }}
+    gh = {{ $gh }}
+    secrets = {{ $secrets }}
+    homebrew = {{ $homebrew }}

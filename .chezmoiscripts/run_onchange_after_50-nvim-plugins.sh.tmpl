@@ -1,0 +1,8 @@
+{{ if .modules.nvim -}}
+#!/bin/bash
+# Install plugins at the versions in lazy-lock.json.
+# lazy-lock: {{ include "dot_config/nvim/lazy-lock.json" | sha256sum }}
+# Non-fatal: a plugin failure must not stop `chezmoi apply`.
+"$HOME/.local/opt/nvim/bin/nvim" --headless "+Lazy! restore" +qa \
+    || echo "nvim: plugin restore failed; open nvim and run :Lazy restore" >&2
+{{ end -}}

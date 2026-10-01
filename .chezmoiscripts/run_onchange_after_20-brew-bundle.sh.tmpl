@@ -1,0 +1,7 @@
+{{ if .modules.homebrew -}}
+#!/bin/bash
+# Re-runs when the rendered Brewfile changes.
+# Brewfile: {{ includeTemplate "dot_Brewfile.tmpl" . | sha256sum }}
+set -eu
+/opt/homebrew/bin/brew bundle --file="$HOME/.Brewfile"
+{{ end -}}

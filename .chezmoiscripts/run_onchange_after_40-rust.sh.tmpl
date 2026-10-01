@@ -1,0 +1,10 @@
+{{ if .modules.rust -}}
+#!/bin/bash
+set -eu
+if [ ! -x "$HOME/.cargo/bin/rustup" ]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+fi
+{{- if .modules.nvim }}
+"$HOME/.cargo/bin/rustup" component add rust-analyzer
+{{- end }}
+{{ end -}}

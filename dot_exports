@@ -1,5 +1,5 @@
-# Make neovim the default editor.
-export EDITOR='nvim';
+# Use neovim as the editor when it is installed.
+if (( $+commands[nvim] )); then export EDITOR='nvim'; else export EDITOR='vim'; fi
 
 # History options
 export HISTFILE=~/.zsh_history
@@ -20,14 +20,8 @@ export HISTCONTROL='ignoreboth';
 export LANG='en_US.UTF-8';
 export LC_ALL='en_US.UTF-8';
 
-# Highlight section titles in manual pages.
-export LESS_TERMCAP_md="${yellow}";
-
 # Don’t clear the screen after quitting a manual page.
 export MANPAGER='less -X';
 
 # Don't show the zshell message on login
 export BASH_SILENCE_DEPRECATION_WARNING=1
-
-# API keys
-export ANTHROPIC_API_KEY="{{ (index (onepassword "aktbzrmt5tmafpm4iw7gnz45jm").fields 0).value }}"

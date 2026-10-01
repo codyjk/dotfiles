@@ -1,0 +1,7 @@
+# Rendered by chezmoi from the modules chosen at `chezmoi init`.
+{{- if .modules.tmux }}
+brew "tmux"
+{{- end }}
+{{- range .packages.brew_extra }}
+brew {{ . | quote }}
+{{- end }}

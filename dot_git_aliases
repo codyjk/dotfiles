@@ -1,9 +1,7 @@
-#!/bin/sh -x
-
 alias gl='git log'
 alias gs='git status'
 alias gch='git checkout'
-alias gb='git checkout $(git branch | fzf --prompt="Checkout which branch? ")'
+(( $+commands[fzf] )) && alias gb='git checkout $(git branch | fzf --prompt="Checkout which branch? ")'
 alias gf='git fetch'
 alias gpr='git pull --rebase'
 alias gsh='git stash'
@@ -15,7 +13,7 @@ alias gra='git rebase --abort'
 alias gstat='git diff --stat'
 alias gre='git fetch origin && git rebase origin/main'
 alias gg='git grep'
-alias gm='gh pr merge -d'
+(( $+commands[gh] )) && alias gm='gh pr merge -d'
 
 gup () {
   git push origin HEAD

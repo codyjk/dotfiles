@@ -100,22 +100,20 @@ return {
 
     -- All languages: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
-    -- Lua
-    lspconfig["lua_ls"].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
+    -- Set up a server only when its binary is installed, so a missing
+    -- language does not warn on every file open.
+    local servers = {
+      lua_ls = "lua-language-server", -- not installed by default
+      pyright = "pyright-langserver", -- uv tool install pyright
+      rust_analyzer = "rust-analyzer", -- rustup component add rust-analyzer
     }
-
-    -- Python: brew install pyright
-    lspconfig["pyright"].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-    }
-
-    -- Rust
-    lspconfig["rust_analyzer"].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-    }
+    for server, binary in pairs(servers) do
+      if vim.fn.executable(binary) == 1 then
+        lspconfig[server].setup {
+          capabilities = capabilities,
+          on_attach = on_attach,
+        }
+      end
+    end
   end
 }

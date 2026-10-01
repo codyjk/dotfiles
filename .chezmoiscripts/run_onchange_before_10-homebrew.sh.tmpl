@@ -1,0 +1,9 @@
+{{ if .modules.homebrew -}}
+#!/bin/bash
+# Install Homebrew to its standard prefix. It asks for your password.
+set -eu
+if [ -x /opt/homebrew/bin/brew ]; then
+    exit 0
+fi
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+{{ end -}}

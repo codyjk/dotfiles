@@ -1,0 +1,18 @@
+{{ if eq .modules.terminal "ghostty" -}}
+#!/bin/bash
+# Install Ghostty {{ .versions.ghostty }} from the signed, notarized dmg.
+# Non-fatal: the app is optional for the rest of the setup.
+set -u
+if [ -d /Applications/Ghostty.app ]; then
+    exit 0
+fi
+WORK=$(mktemp -d)
+trap 'hdiutil detach -quiet "$WORK/mnt" 2>/dev/null; rm -rf "$WORK"' EXIT
+if curl -fsSL -o "$WORK/Ghostty.dmg" "https://release.files.ghostty.org/{{ .versions.ghostty }}/Ghostty.dmg" \
+    && hdiutil attach -quiet -nobrowse -readonly -mountpoint "$WORK/mnt" "$WORK/Ghostty.dmg" \
+    && cp -R "$WORK/mnt/Ghostty.app" /Applications/; then
+    echo "Installed Ghostty {{ .versions.ghostty }}"
+else
+    echo "ghostty: install failed; get it from https://ghostty.org" >&2
+fi
+{{ end -}}

@@ -31,6 +31,8 @@ alias reload="exec $SHELL -l"
 # Weather
 alias weather="curl http://v2.wttr.in/"
 
-# Force nvim
-alias vi="nvim"
-alias vim="nvim"
+# Use nvim for vi and vim when it is installed
+if (( $+commands[nvim] )); then
+  alias vi="nvim"
+  alias vim="nvim"
+fi

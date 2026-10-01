@@ -1,4 +1,6 @@
-export PATH="$PATH:$HOME/.brew/bin"
-export PATH="$PATH:$HOME/.chezmoi/bin"
-export PATH="$PATH:$HOME/.cargo/bin"
-export PATH="$PATH:$HOME/.local/bin"
+# Prepend each tool directory that exists. typeset -U drops duplicates.
+typeset -U path
+for d in /opt/homebrew/bin "$HOME/.cargo/bin" "$HOME/.local/opt/nvim/bin" "$HOME/.local/bin"; do
+  [[ -d $d ]] && path=("$d" $path)
+done
+export PATH

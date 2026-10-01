@@ -1,0 +1,20 @@
+# Pinned so `chezmoi apply` is repeatable. Bump a version to re-download.
+# All assets are macOS arm64 builds.
+[versions]
+nvim = "v0.10.4"      # config pins nvim-treesitter v0.9.2; stay on 0.10.x
+ripgrep = "15.2.0"
+fd = "v10.5.0"
+fzf = "0.74.4"
+gh = "2.102.0"
+fnm = "v1.39.0"
+uv = "0.12.21"
+python = "3.13"
+typescript = "5"    # typescript-tools.nvim needs tsserver.js; TypeScript 7 (Go) has none
+tmux = "3.7c"
+libevent = "2.1.13-stable"
+utf8proc = "2.12.0"
+ghostty = "1.3.1"
+
+[packages]
+# Extra Homebrew formulae, used only when the homebrew module is on.
+brew_extra = []

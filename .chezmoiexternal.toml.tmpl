@@ -1,0 +1,73 @@
+{{- $v := .versions -}}
+{{- if ne .chezmoi.arch "arm64" -}}
+{{-   fail "these dotfiles pin macOS arm64 binaries" -}}
+{{- end -}}
+
+{{ if .modules.nvim -}}
+[".local/opt/nvim"]
+    type = "archive"
+    url = "https://github.com/neovim/neovim/releases/download/{{ $v.nvim }}/nvim-macos-arm64.tar.gz"
+    stripComponents = 1
+    exact = true
+
+[".local/bin/rg"]
+    type = "archive-file"
+    url = "https://github.com/BurntSushi/ripgrep/releases/download/{{ $v.ripgrep }}/ripgrep-{{ $v.ripgrep }}-aarch64-apple-darwin.tar.gz"
+    path = "ripgrep-{{ $v.ripgrep }}-aarch64-apple-darwin/rg"
+    executable = true
+
+[".local/bin/fd"]
+    type = "archive-file"
+    url = "https://github.com/sharkdp/fd/releases/download/{{ $v.fd }}/fd-{{ $v.fd }}-aarch64-apple-darwin.tar.gz"
+    path = "fd-{{ $v.fd }}-aarch64-apple-darwin/fd"
+    executable = true
+{{ end -}}
+
+{{ if .modules.fzf -}}
+[".local/bin/fzf"]
+    type = "archive-file"
+    url = "https://github.com/junegunn/fzf/releases/download/v{{ $v.fzf }}/fzf-{{ $v.fzf }}-darwin_arm64.tar.gz"
+    path = "fzf"
+    executable = true
+{{ end -}}
+
+{{ if .modules.gh -}}
+[".local/bin/gh"]
+    type = "archive-file"
+    url = "https://github.com/cli/cli/releases/download/v{{ $v.gh }}/gh_{{ $v.gh }}_macOS_arm64.zip"
+    path = "gh_{{ $v.gh }}_macOS_arm64/bin/gh"
+    executable = true
+{{ end -}}
+
+{{ if .modules.node -}}
+[".local/bin/fnm"]
+    type = "archive-file"
+    url = "https://github.com/Schniz/fnm/releases/download/{{ $v.fnm }}/fnm-macos.zip"
+    path = "fnm"
+    executable = true
+{{ end -}}
+
+{{ if .modules.python -}}
+[".local/bin/uv"]
+    type = "archive-file"
+    url = "https://github.com/astral-sh/uv/releases/download/{{ $v.uv }}/uv-aarch64-apple-darwin.tar.gz"
+    path = "uv-aarch64-apple-darwin/uv"
+    executable = true
+
+[".local/bin/uvx"]
+    type = "archive-file"
+    url = "https://github.com/astral-sh/uv/releases/download/{{ $v.uv }}/uv-aarch64-apple-darwin.tar.gz"
+    path = "uv-aarch64-apple-darwin/uvx"
+    executable = true
+{{ end -}}
+
+{{ if .modules.prompt -}}
+["powerlevel10k"]
+    type = "git-repo"
+    url = "https://github.com/romkatv/powerlevel10k.git"
+    refreshPeriod = "168h"
+    [powerlevel10k.clone]
+        args = ["--depth", "1"]
+    [powerlevel10k.pull]
+        args = ["--ff-only"]
+{{ end -}}
