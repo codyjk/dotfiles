@@ -1,9 +1,20 @@
 {{ if .modules.rust -}}
 #!/bin/bash
+# rustup {{ .versions.rustup }} from its versioned URL, checked against its
+# SHA-256. Rust {{ .versions.rust }} is the default toolchain. rustup does not
+# update itself; bump the versions in versions.toml instead.
 set -eu
 if [ ! -x "$HOME/.cargo/bin/rustup" ]; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+    WORK=$(mktemp -d)
+    trap 'rm -rf "$WORK"' EXIT
+    curl --proto '=https' --tlsv1.2 -fsSL -o "$WORK/rustup-init" \
+        "https://static.rust-lang.org/rustup/archive/{{ .versions.rustup }}/aarch64-apple-darwin/rustup-init"
+    echo "{{ .checksums.rustup_init }}  $WORK/rustup-init" | shasum -a 256 -c -
+    chmod +x "$WORK/rustup-init"
+    "$WORK/rustup-init" -y --no-modify-path --default-toolchain {{ .versions.rust }}
 fi
+"$HOME/.cargo/bin/rustup" set auto-self-update disable
+"$HOME/.cargo/bin/rustup" default {{ .versions.rust }}
 {{- if .modules.nvim }}
 "$HOME/.cargo/bin/rustup" component add rust-analyzer
 {{- end }}

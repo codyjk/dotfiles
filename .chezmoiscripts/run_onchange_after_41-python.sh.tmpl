@@ -4,6 +4,6 @@
 set -eu
 "$HOME/.local/bin/uv" python install --default {{ .versions.python }}
 {{- if .modules.nvim }}
-"$HOME/.local/bin/uv" tool install --upgrade pyright
+"$HOME/.local/bin/uv" tool install "pyright=={{ .versions.pyright }}"
 {{- end }}
 {{ end -}}

@@ -5,6 +5,7 @@
 # built static in a temp dir and linked in.
 # tmux 3.7 on macOS requires an explicit utf8proc and jemalloc choice;
 # jemalloc is skipped (system malloc works, one less dependency).
+# Each tarball must match its SHA-256 in versions.toml.
 # Non-fatal: if the build fails, the rest of `chezmoi apply` still runs.
 set -eu
 PREFIX="$HOME/.local"
@@ -21,17 +22,20 @@ build() {
     cd "$WORK" \
     && echo "Building libevent {{ .versions.libevent }}..." \
     && curl -fsSL -o libevent.tar.gz "https://github.com/libevent/libevent/releases/download/release-{{ .versions.libevent }}/libevent-{{ .versions.libevent }}.tar.gz" \
+    && echo "{{ .checksums.libevent }}  libevent.tar.gz" | shasum -a 256 -c - \
     && tar xzf libevent.tar.gz \
     && (cd "libevent-{{ .versions.libevent }}" \
         && ./configure --prefix="$WORK/deps" --disable-openssl --disable-shared --disable-samples --disable-libevent-regress >/dev/null \
         && make -j"$JOBS" >/dev/null && make install >/dev/null) \
     && echo "Building utf8proc {{ .versions.utf8proc }}..." \
     && curl -fsSL -o utf8proc.tar.gz "https://github.com/JuliaStrings/utf8proc/releases/download/v{{ .versions.utf8proc }}/utf8proc-{{ .versions.utf8proc }}.tar.gz" \
+    && echo "{{ .checksums.utf8proc }}  utf8proc.tar.gz" | shasum -a 256 -c - \
     && tar xzf utf8proc.tar.gz \
     && (cd "utf8proc-{{ .versions.utf8proc }}" && make -j"$JOBS" libutf8proc.a >/dev/null \
         && cp libutf8proc.a "$WORK/deps/lib/" && cp utf8proc.h "$WORK/deps/include/") \
     && echo "Building tmux {{ .versions.tmux }}..." \
     && curl -fsSL -o tmux.tar.gz "https://github.com/tmux/tmux/releases/download/{{ .versions.tmux }}/tmux-{{ .versions.tmux }}.tar.gz" \
+    && echo "{{ .checksums.tmux }}  tmux.tar.gz" | shasum -a 256 -c - \
     && tar xzf tmux.tar.gz \
     && (cd "tmux-{{ .versions.tmux }}" \
         && LIBEVENT_CFLAGS="-I$WORK/deps/include" LIBEVENT_LIBS="$WORK/deps/lib/libevent.a" \

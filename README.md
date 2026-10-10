@@ -33,4 +33,25 @@ Managed by [chezmoi](https://www.chezmoi.io/). On `chezmoi init`, you choose whi
 
 Binaries come from pinned GitHub releases (see `.chezmoidata/versions.toml`) into `~/.local/bin`, not from Homebrew. To change a version, edit that file and run `chezmoi apply`.
 
+## Pins and checksums
+
+Every download has an exact version and a SHA-256 in `.chezmoidata/versions.toml`. chezmoi and the install scripts stop on a mismatch. This covers the binaries, powerlevel10k (pinned to one commit), the tmux source tarballs, rustup, and the Homebrew installer. Node, Python, Rust, pyright and TypeScript are also pinned to exact versions. rustup does not update itself. Ghostty must carry a valid signature from the Team ID in `versions.toml`.
+
+To bump a version:
+
+1. Change the version in `[versions]`.
+2. Get the new hash from the GitHub release page ("digest"), or run `curl -fsSL <url> | shasum -a 256`.
+3. Change the hash in `[checksums]`.
+4. Run `chezmoi apply`.
+
+## Homebrew controls
+
+When the `homebrew` module is on:
+
+- Homebrew installs from its signed `.pkg` at a pinned version, not from the `HEAD` install script.
+- `~/.homebrew/brew.env` turns off analytics and auto-update, stops `brew install` from upgrading, forbids HTTPS-to-HTTP redirects, and requires a checksum for every cask. With the `gh` module on, it also verifies bottle attestations.
+- `~/.Brewfile` is the complete list. `chezmoi apply` installs it with `--no-upgrade`, then runs `brew bundle cleanup --force`, which uninstalls anything not in it. Add packages to `brew_extra` in `versions.toml`.
+- `/opt/homebrew/bin` goes last on `PATH`, so Homebrew never shadows system tools or pinned tools.
+- A Brewfile pins names, not versions. Homebrew packages change only when you run `brew update` and `brew upgrade`.
+
 To change your module choices, run `chezmoi init --prompt`, then `chezmoi apply`. Turning a module off stops managing its files. It does not uninstall anything.

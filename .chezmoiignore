@@ -16,4 +16,6 @@ README.md
 {{- end }}
 {{- if not .modules.homebrew }}
 .Brewfile
+.homebrew
+.homebrew/**
 {{- end }}

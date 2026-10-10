@@ -1,9 +1,15 @@
 {{ if .modules.homebrew -}}
 #!/bin/bash
-# Install Homebrew to its standard prefix. It asks for your password.
+# Install Homebrew {{ .versions.homebrew }} from its signed .pkg, checked
+# against its SHA-256. It asks for your password.
 set -eu
 if [ -x /opt/homebrew/bin/brew ]; then
     exit 0
 fi
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+WORK=$(mktemp -d)
+trap 'rm -rf "$WORK"' EXIT
+curl -fsSL -o "$WORK/Homebrew.pkg" \
+    "https://github.com/Homebrew/brew/releases/download/{{ .versions.homebrew }}/Homebrew.pkg"
+echo "{{ .checksums.homebrew_pkg }}  $WORK/Homebrew.pkg" | shasum -a 256 -c -
+sudo /usr/sbin/installer -pkg "$WORK/Homebrew.pkg" -target /
 {{ end -}}

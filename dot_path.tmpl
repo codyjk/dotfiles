@@ -1,0 +1,10 @@
+# Prepend each tool directory that exists. typeset -U drops duplicates.
+typeset -U path
+for d in "$HOME/.cargo/bin" "$HOME/.local/opt/nvim/bin" "$HOME/.local/bin"; do
+  [[ -d $d ]] && path=("$d" $path)
+done
+{{- if .modules.homebrew }}
+# Homebrew goes last, so it never shadows system or pinned tools.
+[[ -d /opt/homebrew/bin ]] && path+=(/opt/homebrew/bin)
+{{- end }}
+export PATH

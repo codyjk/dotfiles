@@ -1,4 +1,5 @@
 {{- $v := .versions -}}
+{{- $c := .checksums -}}
 {{- if ne .chezmoi.arch "arm64" -}}
 {{-   fail "these dotfiles pin macOS arm64 binaries" -}}
 {{- end -}}
@@ -9,18 +10,21 @@
     url = "https://github.com/neovim/neovim/releases/download/{{ $v.nvim }}/nvim-macos-arm64.tar.gz"
     stripComponents = 1
     exact = true
+    checksum.sha256 = "{{ $c.nvim }}"
 
 [".local/bin/rg"]
     type = "archive-file"
     url = "https://github.com/BurntSushi/ripgrep/releases/download/{{ $v.ripgrep }}/ripgrep-{{ $v.ripgrep }}-aarch64-apple-darwin.tar.gz"
     path = "ripgrep-{{ $v.ripgrep }}-aarch64-apple-darwin/rg"
     executable = true
+    checksum.sha256 = "{{ $c.ripgrep }}"
 
 [".local/bin/fd"]
     type = "archive-file"
     url = "https://github.com/sharkdp/fd/releases/download/{{ $v.fd }}/fd-{{ $v.fd }}-aarch64-apple-darwin.tar.gz"
     path = "fd-{{ $v.fd }}-aarch64-apple-darwin/fd"
     executable = true
+    checksum.sha256 = "{{ $c.fd }}"
 {{ end -}}
 
 {{ if .modules.fzf -}}
@@ -29,6 +33,7 @@
     url = "https://github.com/junegunn/fzf/releases/download/v{{ $v.fzf }}/fzf-{{ $v.fzf }}-darwin_arm64.tar.gz"
     path = "fzf"
     executable = true
+    checksum.sha256 = "{{ $c.fzf }}"
 {{ end -}}
 
 {{ if .modules.gh -}}
@@ -37,6 +42,7 @@
     url = "https://github.com/cli/cli/releases/download/v{{ $v.gh }}/gh_{{ $v.gh }}_macOS_arm64.zip"
     path = "gh_{{ $v.gh }}_macOS_arm64/bin/gh"
     executable = true
+    checksum.sha256 = "{{ $c.gh }}"
 {{ end -}}
 
 {{ if .modules.node -}}
@@ -45,6 +51,7 @@
     url = "https://github.com/Schniz/fnm/releases/download/{{ $v.fnm }}/fnm-macos.zip"
     path = "fnm"
     executable = true
+    checksum.sha256 = "{{ $c.fnm }}"
 {{ end -}}
 
 {{ if .modules.python -}}
@@ -53,21 +60,22 @@
     url = "https://github.com/astral-sh/uv/releases/download/{{ $v.uv }}/uv-aarch64-apple-darwin.tar.gz"
     path = "uv-aarch64-apple-darwin/uv"
     executable = true
+    checksum.sha256 = "{{ $c.uv }}"
 
 [".local/bin/uvx"]
     type = "archive-file"
     url = "https://github.com/astral-sh/uv/releases/download/{{ $v.uv }}/uv-aarch64-apple-darwin.tar.gz"
     path = "uv-aarch64-apple-darwin/uvx"
     executable = true
+    checksum.sha256 = "{{ $c.uv }}"
 {{ end -}}
 
 {{ if .modules.prompt -}}
+# Pinned to one commit. It changes only when versions.toml changes.
+# Not exact: zsh writes .zwc caches into this folder at startup.
 ["powerlevel10k"]
-    type = "git-repo"
-    url = "https://github.com/romkatv/powerlevel10k.git"
-    refreshPeriod = "168h"
-    [powerlevel10k.clone]
-        args = ["--depth", "1"]
-    [powerlevel10k.pull]
-        args = ["--ff-only"]
+    type = "archive"
+    url = "https://github.com/romkatv/powerlevel10k/archive/{{ $v.powerlevel10k }}.tar.gz"
+    stripComponents = 1
+    checksum.sha256 = "{{ $c.powerlevel10k }}"
 {{ end -}}
