@@ -1,4 +1,4 @@
-{{ if and .modules.tmux (not .modules.homebrew) -}}
+{{ if .modules.tmux -}}
 #!/bin/bash
 # Build tmux {{ .versions.tmux }} into ~/.local without Homebrew.
 # libevent {{ .versions.libevent }} and utf8proc {{ .versions.utf8proc }} are

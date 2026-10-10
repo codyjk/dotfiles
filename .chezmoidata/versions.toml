@@ -19,6 +19,7 @@ tmux = "3.7c"
 libevent = "2.1.13-stable"
 utf8proc = "2.12.0"
 ghostty = "1.3.1"
+vale = "3.24.0"
 ghostty_team_id = "24VZTF6M5V"  # Apple Developer Team ID that signs Ghostty.app
 powerlevel10k = "d05a1b00f9a61f9578bf9dc19b8451942dde8734"  # a commit; the last tag (v1.20.0) is older
 homebrew = "7.0.9"
@@ -39,6 +40,7 @@ tmux = "7c60cae9a0e25288e2e24750aafc9e8800fc7fd4555e447e1b29ee4201cfb3bf"
 libevent = "f7e9383b8c0baa81b687e5b5eecc01beefaf1b19b64151d95ed61647fe7a315c"
 utf8proc = "a393fbef160835fb315bc3e91ba8d86f7a73a7cec9e6198b6c60b848b498bfeb"
 rustup_init = "ec1b9233e7f72990ecd8e62063fa7f6c3dfc2bec8e97f88bff165f9100ac696a"
+vale = "87b513f26499f6657c15cf7175ba5b058a7c1ff2bb2d4e07265db2dd43451e44"
 homebrew_pkg = "e021295947a4a9b7ca1a8eff310c9ea1db14d923c5acf7d79e325b60a81f1a15"
 
 [packages]
@@ -46,3 +48,5 @@ homebrew_pkg = "e021295947a4a9b7ca1a8eff310c9ea1db14d923c5acf7d79e325b60a81f1a15
 # The Brewfile is the complete list: `brew bundle cleanup --force` removes
 # anything installed outside it.
 brew_extra = []
+# Homebrew casks (GUI apps). Each must have a checksum (--require-sha).
+brew_casks = []

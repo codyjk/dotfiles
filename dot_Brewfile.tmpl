@@ -1,7 +1,9 @@
-# Rendered by chezmoi from the modules chosen at `chezmoi init`.
-{{- if .modules.tmux }}
-brew "tmux"
-{{- end }}
+# Rendered by chezmoi from versions.toml. This is the complete list:
+# `chezmoi apply` removes any Homebrew package that is not here.
+# tmux is not here: it is always built from pinned source into ~/.local.
 {{- range .packages.brew_extra }}
 brew {{ . | quote }}
+{{- end }}
+{{- range .packages.brew_casks }}
+cask {{ . | quote }}
 {{- end }}

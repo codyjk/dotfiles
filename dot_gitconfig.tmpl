@@ -1,0 +1,15 @@
+[user]
+name = Cody Joseph Krainock
+email = me@codyjoseph.com
+{{- /* Sign commits only on machines that have the GitHub SSH key. */}}
+{{- if and (stat (joinPath .chezmoi.homeDir ".ssh/github.pub")) (stat (joinPath .chezmoi.homeDir ".ssh/allowed_signers")) }}
+	signingkey = {{ joinPath .chezmoi.homeDir ".ssh/github.pub" }}
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = {{ joinPath .chezmoi.homeDir ".ssh/allowed_signers" }}
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+{{- end }}

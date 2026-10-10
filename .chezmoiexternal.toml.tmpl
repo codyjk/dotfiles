@@ -70,6 +70,15 @@
     checksum.sha256 = "{{ $c.uv }}"
 {{ end -}}
 
+{{ if .modules.vale -}}
+[".local/bin/vale"]
+    type = "archive-file"
+    url = "https://github.com/vale-cli/vale/releases/download/v{{ $v.vale }}/vale_{{ $v.vale }}_macOS_arm64.tar.gz"
+    path = "vale"
+    executable = true
+    checksum.sha256 = "{{ $c.vale }}"
+{{ end -}}
+
 {{ if .modules.prompt -}}
 # Pinned to one commit. It changes only when versions.toml changes.
 # Not exact: zsh writes .zwc caches into this folder at startup.

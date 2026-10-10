@@ -22,12 +22,13 @@ Managed by [chezmoi](https://www.chezmoi.io/). On `chezmoi init`, you choose whi
 | `prompt` | on | powerlevel10k and `~/.p10k.zsh` |
 | `fzf` | on | fzf binary and zsh key bindings |
 | `nvim` | on | neovim, ripgrep, fd, nvim config, plugins from `lazy-lock.json` |
-| `tmux` | on | tmux config. tmux itself is built from source into `~/.local` (about 2 minutes), or installed by Homebrew if `homebrew` is on |
+| `tmux` | on | tmux config. tmux itself is built from pinned source into `~/.local` (about 2 minutes), with or without Homebrew |
 | `terminal` | ghostty | Ghostty app, or `none` |
-| `rust` | on | rustup and stable Rust (plus rust-analyzer with `nvim`) |
+| `rust` | on | rustup and a pinned Rust toolchain (plus rust-analyzer with `nvim`) |
 | `python` | on | uv and Python (plus pyright with `nvim`) |
-| `node` | on | fnm and Node LTS (plus typescript with `nvim`) |
+| `node` | on | fnm and a pinned Node LTS (plus typescript with `nvim`) |
 | `gh` | on | GitHub CLI |
+| `vale` | off | vale prose linter |
 | `secrets` | off | `~/.config/zsh/secrets.zsh` (mode 0600) from 1Password |
 | `homebrew` | off | Homebrew in `/opt/homebrew` and `~/.Brewfile` |
 
@@ -50,7 +51,7 @@ When the `homebrew` module is on:
 
 - Homebrew installs from its signed `.pkg` at a pinned version, not from the `HEAD` install script.
 - `~/.homebrew/brew.env` turns off analytics and auto-update, stops `brew install` from upgrading, forbids HTTPS-to-HTTP redirects, and requires a checksum for every cask. With the `gh` module on, it also verifies bottle attestations.
-- `~/.Brewfile` is the complete list. `chezmoi apply` installs it with `--no-upgrade`, then runs `brew bundle cleanup --force`, which uninstalls anything not in it. Add packages to `brew_extra` in `versions.toml`.
+- `~/.Brewfile` is the complete list. `chezmoi apply` installs it with `--no-upgrade`, then runs `brew bundle cleanup --force`, which uninstalls anything not in it. Add command-line tools to `brew_extra` and GUI apps to `brew_casks` in `versions.toml`. Each cask must have a checksum.
 - `/opt/homebrew/bin` goes last on `PATH`, so Homebrew never shadows system tools or pinned tools.
 - A Brewfile pins names, not versions. Homebrew packages change only when you run `brew update` and `brew upgrade`.
 
