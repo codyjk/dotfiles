@@ -50,10 +50,10 @@ To bump a version:
 When the `homebrew` module is on:
 
 - Homebrew installs from its signed `.pkg` at a pinned version, not from the `HEAD` install script.
-- `~/.homebrew/brew.env` turns off analytics and auto-update, stops `brew install` from upgrading, forbids HTTPS-to-HTTP redirects, and requires a checksum for every cask. With the `gh` module on, it also verifies bottle attestations.
+- `~/.homebrew/brew.env` turns off analytics and auto-update, stops `brew install` from upgrading, forbids HTTPS-to-HTTP redirects, and requires a checksum for every cask. With the `gh` module on, it also verifies bottle attestations. Homebrew runs `gh` with its own PATH, so the bundle script and the `brew` wrapper pass the token from `gh auth token` in `HOMEBREW_GITHUB_API_TOKEN`. The token is never written to disk.
 - `~/.Brewfile` is the complete list. `chezmoi apply` installs it with `--no-upgrade`, then runs `brew bundle cleanup --force`, which uninstalls anything not in it. The lists live in `.chezmoidata/packages.toml`. Each cask must have a checksum.
 - `brewfile add NAME` and `brewfile remove NAME` edit those lists, run `chezmoi apply`, and commit the change. `brewfile add` checks that the package exists, uses the canonical name, and rejects casks with no checksum. Pass `--formula` or `--cask` when a name is both. `brewfile list` shows the lists.
-- In zsh, `brew install` runs `brewfile add`, and `brew uninstall` / `remove` / `rm` run `brewfile remove`. `brew tap` is blocked. Other `brew` commands run unchanged. To bypass, run `command brew ...`.
+- In zsh, `brew install` runs `brewfile add`, and `brew uninstall` / `remove` / `rm` run `brewfile remove`. `brew tap` and `brew fetch` are blocked (`fetch` caches bottles without an attestation check). Other `brew` commands run unchanged. To bypass, run `command brew ...`.
 - `/opt/homebrew/bin` goes last on `PATH`, so Homebrew never shadows system tools or pinned tools.
 - A Brewfile pins names, not versions. Homebrew packages change only when you run `brew update` and `brew upgrade`.
 

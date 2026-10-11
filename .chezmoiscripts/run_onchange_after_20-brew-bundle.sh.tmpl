@@ -3,6 +3,11 @@
 # Re-runs when the rendered Brewfile changes.
 # Brewfile: {{ includeTemplate "dot_Brewfile.tmpl" . | sha256sum }}
 set -eu
+{{- if .modules.gh }}
+# Attestation checks need a GitHub token. Homebrew runs `gh` with its own
+# PATH, which leaves out ~/.local/bin, so pass the token in directly.
+export HOMEBREW_GITHUB_API_TOKEN="${HOMEBREW_GITHUB_API_TOKEN:-$("$HOME/.local/bin/gh" auth token --hostname github.com 2>/dev/null || true)}"
+{{- end }}
 # The Brewfile is the complete list. --no-upgrade leaves installed packages
 # alone; cleanup --force removes anything not in the Brewfile.
 /opt/homebrew/bin/brew bundle install --file="$HOME/.Brewfile" --no-upgrade
