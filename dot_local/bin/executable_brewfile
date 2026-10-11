@@ -1,0 +1,150 @@
+#!/bin/zsh
+# brewfile: add or remove Homebrew packages through chezmoi.
+# The lists live in .chezmoidata/packages.toml, so ~/.Brewfile stays the
+# complete list of what Homebrew may install.
+emulate -L zsh
+setopt no_unset pipe_fail extended_glob
+
+BREW=/opt/homebrew/bin/brew
+SRC=$(chezmoi source-path) || exit 1
+DATA="$SRC/.chezmoidata/packages.toml"
+
+usage() {
+    cat <<'USAGE'
+Usage:
+  brewfile add [--formula|--cask] NAME...     add packages, then install them
+  brewfile remove [--formula|--cask] NAME...  remove packages, then uninstall them
+  brewfile list                               show the package lists
+
+add and remove run `chezmoi apply` and commit the change to the dotfiles repo.
+USAGE
+}
+
+die() { print -u2 "brewfile: $*"; exit 1 }
+
+# Read a list from chezmoi data. $1 is brew_extra or brew_casks.
+read_list() {
+    chezmoi execute-template "{{ range .packages.$1 }}{{ . }}{{ \"\\n\" }}{{ end }}"
+}
+
+# Write both lists, sorted and without duplicates.
+write_data() {
+    local -a f c
+    f=(${(ou)formulae}) c=(${(ou)casks})
+    {
+        print '# Homebrew packages, used only when the homebrew module is on.'
+        print '# chezmoi renders these into ~/.Brewfile. `chezmoi apply` uninstalls'
+        print '# anything not listed. Edit with `brewfile add` / `brewfile remove`.'
+        print '[packages]'
+        print 'brew_extra = ['
+        local p
+        for p in $f; do print "  \"$p\","; done
+        print ']'
+        print 'brew_casks = ['
+        for p in $c; do print "  \"$p\","; done
+        print ']'
+    } > $DATA
+}
+
+# Print the canonical name of a formula, or fail.
+formula_name() {
+    $BREW info --formula --json=v2 $1 2>/dev/null \
+        | /usr/bin/plutil -extract formulae.0.full_name raw -o - - 2>/dev/null
+}
+
+# Print the token of a cask, or fail.
+cask_name() {
+    $BREW info --cask --json=v2 $1 2>/dev/null \
+        | /usr/bin/plutil -extract casks.0.token raw -o - - 2>/dev/null
+}
+
+cask_sha() {
+    $BREW info --cask --json=v2 $1 2>/dev/null \
+        | /usr/bin/plutil -extract casks.0.sha256 raw -o - - 2>/dev/null
+}
+
+# Apply and commit. On failure, restore the previous lists.
+apply_and_commit() {
+    local message=$1 backup=$2
+    if ! chezmoi apply; then
+        print -r -- $backup > $DATA
+        chezmoi apply >/dev/null 2>&1
+        die "chezmoi apply failed; the package lists are unchanged"
+    fi
+    git -C $SRC add $DATA && git -C $SRC commit -q -m $message -- $DATA \
+        || die "applied, but the commit failed; commit $DATA by hand"
+    print "brewfile: $message (committed; push when ready)"
+}
+
+[[ -x $BREW ]] || die "Homebrew is not installed. Set homebrew = true and run chezmoi apply."
+[[ -r $DATA ]] || die "missing $DATA"
+
+cmd=${1-}
+(( $# )) && shift
+kind=auto
+names=()
+for arg in "$@"; do
+    case $arg in
+        --formula|--formulae) kind=formula ;;
+        --cask|--casks) kind=cask ;;
+        -h|--help) usage; exit 0 ;;
+        -*) die "unsupported option: $arg (use 'command brew' to bypass brewfile)" ;;
+        *) [[ $arg == [a-z0-9][a-z0-9@._+-]# ]] || die "not a package name: $arg (taps are not supported)"
+           names+=($arg) ;;
+    esac
+done
+
+formulae=(${(f)"$(read_list brew_extra)"})
+casks=(${(f)"$(read_list brew_casks)"})
+formulae=(${formulae:#}) casks=(${casks:#})  # drop empty lines
+
+case $cmd in
+    list|ls)
+        print "Formulae (brew_extra):"; for p in $formulae; do print "  $p"; done
+        print "Casks (brew_casks):";    for p in $casks;    do print "  $p"; done
+        ;;
+    add|install)
+        (( $#names )) || { usage; exit 1 }
+        added=()
+        for n in $names; do
+            f="" c=""
+            [[ $kind != cask ]] && f=$(formula_name $n)
+            [[ $kind != formula ]] && c=$(cask_name $n)
+            if [[ -n $f && -n $c ]]; then
+                die "$n is both a formula and a cask; pass --formula or --cask"
+            elif [[ -n $f ]]; then
+                (( ${formulae[(Ie)$f]} )) && { print "brewfile: $f is already listed"; continue }
+                formulae+=($f) added+=($f)
+            elif [[ -n $c ]]; then
+                [[ $(cask_sha $c) == no_check ]] \
+                    && die "cask $c has no checksum, so --require-sha blocks it; install it from the vendor"
+                (( ${casks[(Ie)$c]} )) && { print "brewfile: $c is already listed"; continue }
+                casks+=($c) added+=("$c (cask)")
+            else
+                die "no ${kind/auto/formula or cask} named $n"
+            fi
+        done
+        (( $#added )) || exit 0
+        backup=$(<$DATA)
+        write_data
+        apply_and_commit "brew: add ${(j:, :)added}" $backup
+        ;;
+    remove|rm|uninstall)
+        (( $#names )) || { usage; exit 1 }
+        removed=()
+        for n in $names; do
+            if [[ $kind != cask ]] && (( ${formulae[(Ie)$n]} )); then
+                formulae=(${formulae:#$n}) removed+=($n)
+            elif [[ $kind != formula ]] && (( ${casks[(Ie)$n]} )); then
+                casks=(${casks:#$n}) removed+=("$n (cask)")
+            else
+                die "$n is not in the Brewfile (brewfile list shows what is)"
+            fi
+        done
+        backup=$(<$DATA)
+        write_data
+        apply_and_commit "brew: remove ${(j:, :)removed}" $backup
+        ;;
+    ""|help|-h|--help) usage ;;
+    *) usage; exit 1 ;;
+esac

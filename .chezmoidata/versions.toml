@@ -43,10 +43,3 @@ rustup_init = "ec1b9233e7f72990ecd8e62063fa7f6c3dfc2bec8e97f88bff165f9100ac696a"
 vale = "87b513f26499f6657c15cf7175ba5b058a7c1ff2bb2d4e07265db2dd43451e44"
 homebrew_pkg = "e021295947a4a9b7ca1a8eff310c9ea1db14d923c5acf7d79e325b60a81f1a15"
 
-[packages]
-# Extra Homebrew formulae, used only when the homebrew module is on.
-# The Brewfile is the complete list: `brew bundle cleanup --force` removes
-# anything installed outside it.
-brew_extra = []
-# Homebrew casks (GUI apps). Each must have a checksum (--require-sha).
-brew_casks = []

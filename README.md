@@ -51,7 +51,9 @@ When the `homebrew` module is on:
 
 - Homebrew installs from its signed `.pkg` at a pinned version, not from the `HEAD` install script.
 - `~/.homebrew/brew.env` turns off analytics and auto-update, stops `brew install` from upgrading, forbids HTTPS-to-HTTP redirects, and requires a checksum for every cask. With the `gh` module on, it also verifies bottle attestations.
-- `~/.Brewfile` is the complete list. `chezmoi apply` installs it with `--no-upgrade`, then runs `brew bundle cleanup --force`, which uninstalls anything not in it. Add command-line tools to `brew_extra` and GUI apps to `brew_casks` in `versions.toml`. Each cask must have a checksum.
+- `~/.Brewfile` is the complete list. `chezmoi apply` installs it with `--no-upgrade`, then runs `brew bundle cleanup --force`, which uninstalls anything not in it. The lists live in `.chezmoidata/packages.toml`. Each cask must have a checksum.
+- `brewfile add NAME` and `brewfile remove NAME` edit those lists, run `chezmoi apply`, and commit the change. `brewfile add` checks that the package exists, uses the canonical name, and rejects casks with no checksum. Pass `--formula` or `--cask` when a name is both. `brewfile list` shows the lists.
+- In zsh, `brew install` runs `brewfile add`, and `brew uninstall` / `remove` / `rm` run `brewfile remove`. `brew tap` is blocked. Other `brew` commands run unchanged. To bypass, run `command brew ...`.
 - `/opt/homebrew/bin` goes last on `PATH`, so Homebrew never shadows system tools or pinned tools.
 - A Brewfile pins names, not versions. Homebrew packages change only when you run `brew update` and `brew upgrade`.
 

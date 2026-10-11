@@ -4,7 +4,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Every file is optional: chezmoi only installs the modules you picked.
-for f in ~/.path ~/.exports ~/.aliases ~/.git_aliases ~/.config/zsh/secrets.zsh; do
+for f in ~/.path ~/.exports ~/.aliases ~/.git_aliases ~/.brew.zsh ~/.config/zsh/secrets.zsh; do
   [[ -r $f ]] && source $f
 done
 

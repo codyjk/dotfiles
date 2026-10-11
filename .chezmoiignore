@@ -18,4 +18,6 @@ README.md
 .Brewfile
 .homebrew
 .homebrew/**
+.brew.zsh
+.local/bin/brewfile
 {{- end }}

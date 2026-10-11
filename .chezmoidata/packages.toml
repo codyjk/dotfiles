@@ -1,0 +1,8 @@
+# Homebrew packages, used only when the homebrew module is on.
+# chezmoi renders these into ~/.Brewfile. `chezmoi apply` uninstalls
+# anything not listed. Edit with `brewfile add` / `brewfile remove`.
+[packages]
+brew_extra = [
+]
+brew_casks = [
+]
