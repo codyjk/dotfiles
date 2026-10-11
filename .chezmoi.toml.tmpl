@@ -9,6 +9,7 @@
 {{- $node     := promptBoolOnce   . "modules.node"     "Install Node via fnm" true -}}
 {{- $gh       := promptBoolOnce   . "modules.gh"       "Install the GitHub CLI" true -}}
 {{- $vale     := promptBoolOnce   . "modules.vale"     "Install vale (prose linter)" false -}}
+{{- $lathe    := promptBoolOnce   . "modules.lathe"    "Install lathe (tutorial generator) and its Claude skills" false -}}
 {{- $secrets  := promptBoolOnce   . "modules.secrets"  "Load API keys from 1Password (needs op signed in)" false -}}
 {{- $homebrew := promptBoolOnce   . "modules.homebrew" "Allow Homebrew" false -}}
 
@@ -23,5 +24,6 @@
     node = {{ $node }}
     gh = {{ $gh }}
     vale = {{ $vale }}
+    lathe = {{ $lathe }}
     secrets = {{ $secrets }}
     homebrew = {{ $homebrew }}

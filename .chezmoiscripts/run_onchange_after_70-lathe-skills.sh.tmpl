@@ -1,0 +1,8 @@
+{{ if .modules.lathe -}}
+#!/bin/bash
+# Install the Claude skills bundled in lathe {{ .versions.lathe }} into
+# ~/.claude/skills. Re-runs when the lathe version changes, so the skills
+# always match the binary.
+set -eu
+"$HOME/.local/bin/lathe" skills install --user
+{{ end -}}

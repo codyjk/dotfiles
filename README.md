@@ -29,6 +29,7 @@ Managed by [chezmoi](https://www.chezmoi.io/). On `chezmoi init`, you choose whi
 | `node` | on | fnm and a pinned Node LTS (plus typescript with `nvim`) |
 | `gh` | on | GitHub CLI |
 | `vale` | off | vale prose linter |
+| `lathe` | off | lathe tutorial CLI, plus its skills in `~/.claude/skills` (reinstalled when the version changes) |
 | `secrets` | off | `~/.config/zsh/secrets.zsh` (mode 0600) from 1Password |
 | `homebrew` | off | Homebrew in `/opt/homebrew` and `~/.Brewfile` |
 

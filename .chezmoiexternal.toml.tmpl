@@ -79,6 +79,15 @@
     checksum.sha256 = "{{ $c.vale }}"
 {{ end -}}
 
+{{ if .modules.lathe -}}
+[".local/bin/lathe"]
+    type = "archive-file"
+    url = "https://github.com/devenjarvis/lathe/releases/download/v{{ $v.lathe }}/lathe_{{ $v.lathe }}_darwin_arm64.tar.gz"
+    path = "lathe"
+    executable = true
+    checksum.sha256 = "{{ $c.lathe }}"
+{{ end -}}
+
 {{ if .modules.prompt -}}
 # Pinned to one commit. It changes only when versions.toml changes.
 # Not exact: zsh writes .zwc caches into this folder at startup.
