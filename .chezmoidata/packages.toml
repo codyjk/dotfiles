@@ -5,4 +5,5 @@
 brew_extra = [
 ]
 brew_casks = [
+  "1password-cli",
 ]
