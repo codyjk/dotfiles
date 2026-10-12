@@ -8,12 +8,27 @@ Managed by [chezmoi](https://www.chezmoi.io/). On `chezmoi init`, you choose whi
    ```
    xcode-select --install
    ```
-2. Optional: to load API keys from 1Password, install the 1Password app and the 1Password CLI (use the `.pkg` installer). Sign in. Then answer yes to the 1Password question in step 3.
-3. Install chezmoi and apply:
+2. Install chezmoi and apply. Answer no to the 1Password question for now.
    ```
    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply codyjk
    ```
-4. Open a new terminal.
+3. Open a new terminal.
+
+### Optional: load API keys from 1Password
+
+The `secrets` module reads keys with the 1Password CLI (`op`) when chezmoi applies, so install `op` first. This needs the `homebrew` module.
+
+1. Install the 1Password app and sign in.
+2. Install the CLI. The cask downloads 1Password's signed zip and checks its SHA-256.
+   ```
+   brew install --cask 1password-cli
+   ```
+3. Confirm the publisher. The output must be `TeamIdentifier=2BUA8C4S2C`.
+   ```
+   codesign -dv /opt/homebrew/bin/op 2>&1 | grep TeamIdentifier
+   ```
+4. In the 1Password app, turn on Settings > Developer > Integrate with 1Password CLI. Run `op whoami` to test it. On macOS 27, if `op` cannot reach the app, allow your terminal under System Settings > Privacy & Security > Files and Folders.
+5. Run `chezmoi init --prompt`, answer yes to the 1Password question, then run `chezmoi apply`.
 
 ## Modules
 
