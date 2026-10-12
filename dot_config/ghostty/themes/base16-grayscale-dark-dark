@@ -1,0 +1,24 @@
+# base16-grayscale-dark (dark), generated from the Neovim colorscheme base16-grayscale-dark.
+# ANSI colors from the colorscheme.
+palette = 0=#101010
+palette = 1=#7c7c7c
+palette = 2=#8e8e8e
+palette = 3=#a0a0a0
+palette = 4=#686868
+palette = 5=#747474
+palette = 6=#868686
+palette = 7=#b9b9b9
+palette = 8=#525252
+palette = 9=#7c7c7c
+palette = 10=#8e8e8e
+palette = 11=#a0a0a0
+palette = 12=#686868
+palette = 13=#747474
+palette = 14=#868686
+palette = 15=#f7f7f7
+background = #101010
+foreground = #b9b9b9
+cursor-color = #b9b9b9
+cursor-text = #101010
+selection-background = #464646
+selection-foreground = #b9b9b9

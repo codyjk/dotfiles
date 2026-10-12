@@ -21,6 +21,7 @@ return {
     lazy = true,
     init = function()
       vim.g.zenwritten = { italic_comments = false, italic_strings = false }
+      vim.g.zenbones = { italic_comments = false, italic_strings = false }
     end,
   },
   {
@@ -40,4 +41,29 @@ return {
     },
   },
   { "p00f/alabaster.nvim", lazy = true },
+  -- From vim-no-color-collections. noclown is a single public-domain file
+  -- kept in colors/noclown.vim. zenbones comes from zenbones.nvim above.
+  { "huyvohcmc/atlas.vim", lazy = true },
+  { "LuRsT/austere.vim", lazy = true },
+  { "chriskempson/base16-vim", lazy = true },
+  { "ntk148v/komau.vim", lazy = true },
+  { "kvrohit/rasmus.nvim", lazy = true },
+  { "kadekillary/skull-vim", lazy = true },
+  { "t184256/vim-boring", lazy = true },
+  { "pbrisbin/vim-colors-off", lazy = true },
+  { "fxn/vim-monochrome", lazy = true },
+  {
+    "Lokaltog/vim-monotone",
+    lazy = true,
+    init = function()
+      -- monotone skips loading when g:loaded_monotone is set, so switching
+      -- back to it in a running Neovim would do nothing. Clear the flag first.
+      vim.api.nvim_create_autocmd("ColorSchemePre", {
+        pattern = "monotone",
+        callback = function() vim.g.loaded_monotone = nil end,
+      })
+    end,
+  },
+  { "YorickPeterse/vim-paper", lazy = true },
+  { "hardselius/warlock", lazy = true },
 }

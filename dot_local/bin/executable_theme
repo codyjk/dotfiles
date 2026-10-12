@@ -26,6 +26,9 @@ Usage:
                        set the mode; auto follows macOS
   theme NAME MODE      set both
   theme next           switch to the next theme in the list
+  theme preview [NAME...] [MODE]
+                       draw a sample of each theme in this shell without
+                       switching; all themes by default. `render` works too
   theme --names        print the theme names (for completion)
   theme --reapply      write the state files again (chezmoi runs this)
 USAGE
@@ -35,7 +38,7 @@ die() { print -u2 "theme: $*"; exit 1 }
 
 # Parse the table into NAMES and four maps keyed by name. "-" means none.
 typeset -a NAMES
-typeset -A GDARK GLIGHT
+typeset -A GDARK GLIGHT NDARK NLIGHT
 [[ -r $THEMES ]] || die "missing $THEMES"
 local line x
 local -a f
@@ -50,6 +53,8 @@ while IFS= read -r line; do
     NAMES+=($f[1])
     GDARK[$f[1]]=${f[2]:#-}
     GLIGHT[$f[1]]=${f[3]:#-}
+    NDARK[$f[1]]=${f[4]:#-}
+    NLIGHT[$f[1]]=${f[5]:#-}
 done < $THEMES
 
 read_state() { cat "$STATE/$1" 2>/dev/null || print ${(P)2} }
@@ -91,21 +96,62 @@ apply() {
 }
 
 show() {
-    local cur=$(cur_name) n mark v
+    local cur=$(cur_name) n mark v w=${#${(O@)NAMES//?/x}[1]}
     for n in $NAMES; do
         [[ $n == $cur ]] && mark='*' || mark=' '
         v=()
         [[ -n $GDARK[$n] ]] && v+=(dark)
         [[ -n $GLIGHT[$n] ]] && v+=(light)
-        printf '%s %-16s %s\n' $mark $n "${(j:, :)v}"
+        printf "%s %-$((w + 2))s %s\n" $mark $n "${(j:, :)v}"
     done
     print "\nmode: $(cur_mode)"
+}
+
+# Draw each theme with its real Neovim colors and Ghostty palette.
+# MODE limits it to one variant; without it, each theme shows all of its own.
+preview() {
+    local -a names specs
+    local mode="" a n v has out
+    for a in "$@"; do
+        if (( ${MODES[(Ie)$a]} )); then mode=$a
+        elif (( ${NAMES[(Ie)$a]} )); then names+=($a)
+        else die "unknown theme '$a'. Choose one of: $NAMES"
+        fi
+    done
+    (( $#names )) || names=($NAMES)
+    if [[ $mode == auto ]]; then
+        defaults read -g AppleInterfaceStyle >/dev/null 2>&1 && mode=dark || mode=light
+    fi
+    for n in $names; do
+        for v in dark light; do
+            [[ -n $mode && $v != $mode ]] && continue
+            # A theme without this variant: show its other one, but only
+            # when a mode was asked for, so the list has no duplicates.
+            [[ $v == dark ]] && has=$GDARK[$n] || has=$GLIGHT[$n]
+            if [[ -z $has ]]; then
+                [[ -z $mode ]] && continue
+                [[ $v == dark ]] && v=light || v=dark
+            fi
+            if [[ $v == dark ]]; then
+                specs+=("$n · dark|$GDARK[$n]|$NDARK[$n]|dark")
+            else
+                specs+=("$n · light|$GLIGHT[$n]|$NLIGHT[$n]|light")
+            fi
+        done
+    done
+    out=$(mktemp -t theme-preview) || die "mktemp failed"
+    THEME_PREVIEW_SPECS=${(F)specs} THEME_PREVIEW_OUT=$out \
+        nvim --headless "+luafile ${THEMES:h}/preview.lua" +qa! >/dev/null 2>&1
+    [[ -s $out ]] || { rm -f $out; die "preview failed; is nvim on PATH?" }
+    cat $out
+    rm -f $out
 }
 
 case ${1-} in
     "") show ;;
     -h|--help) usage ;;
     --names) print -l $NAMES ;;
+    preview|render) shift; preview "$@" ;;
     --reapply) apply $(cur_name) $(cur_mode) ;;
     next)
         local i=${NAMES[(ie)$(cur_name)]}

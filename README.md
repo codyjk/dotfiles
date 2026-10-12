@@ -52,12 +52,13 @@ Binaries come from pinned GitHub releases (see `.chezmoidata/versions.toml`) int
 
 ## Themes
 
-`theme` switches the color theme and light/dark mode for Ghostty and Neovim in one step. The themes are `quiet` (the default), `zenwritten`, `kanagawa`, `alabaster`, `vesper`, and `nord`. Vesper and Nord have no light variant, so they stay dark in every mode.
+`theme` switches the color theme and light/dark mode for Ghostty and Neovim in one step. Run `theme` for the list of themes. `quiet` is the default. Fourteen come from [vim-no-color-collections](https://github.com/mcchrish/vim-no-color-collections). A theme with only one variant uses it in every mode.
 
 - `theme` shows the themes, marks the current one, and shows the mode.
 - `theme NAME` switches to NAME. `theme next` goes to the next one.
 - `theme dark`, `theme light`, or `theme auto` sets the mode. `auto` (the default) follows macOS.
 - `theme NAME MODE` sets both.
+- `theme preview [NAME...] [MODE]` draws a sample of each theme in the shell without switching. With no names, it shows all of them. `theme render` is the same command. It loads each colorscheme in headless Neovim, so the colors are exact.
 - In Neovim, `:Theme` takes the same arguments. Both have tab completion.
 
 The themes are listed in `~/.config/theme/themes`. The `theme` command and Neovim both read it. Your choice lives in `~/.local/state/theme`, outside chezmoi, so switching does not change the repo. Ghostty includes the `ghostty` file from that folder and reloads at once. Open Neovim instances switch at once. In auto mode, Neovim checks the macOS appearance when it gets focus. Italics are off in every colorscheme. tmux and p10k use ANSI colors, so they follow the Ghostty palette.
@@ -65,7 +66,7 @@ The themes are listed in `~/.config/theme/themes`. The `theme` command and Neovi
 To add a theme:
 
 1. Add a line to `dot_config/theme/themes`.
-2. If Ghostty has no built-in theme for it, add one to `dot_config/ghostty/themes`.
+2. If Ghostty has no built-in theme for it, generate one from the Neovim colorscheme with `~/.config/theme/ghostty-from-nvim.lua` (usage is at the top of the file).
 3. Add its Neovim plugin to `lua/plugins/colorscheme.lua`.
 4. Run `chezmoi apply`.
 

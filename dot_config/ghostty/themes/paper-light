@@ -1,0 +1,24 @@
+# paper (light), generated from the Neovim colorscheme paper.
+# ANSI colors from the colorscheme.
+palette = 0=#000000
+palette = 1=#cc3e28
+palette = 2=#216609
+palette = 3=#b58900
+palette = 4=#1e6fcc
+palette = 5=#5c21a5
+palette = 6=#158c86
+palette = 7=#aaaaaa
+palette = 8=#555555
+palette = 9=#cc3e28
+palette = 10=#216609
+palette = 11=#b58900
+palette = 12=#1e6fcc
+palette = 13=#5c21a5
+palette = 14=#158c86
+palette = 15=#aaaaaa
+background = #f2eede
+foreground = #000000
+cursor-color = #000000
+cursor-text = #f2eede
+selection-background = #d8d5c7
+selection-foreground = #000000

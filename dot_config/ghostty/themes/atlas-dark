@@ -1,0 +1,24 @@
+# atlas (dark), generated from the Neovim colorscheme atlas.
+# ANSI colors from the colorscheme.
+palette = 0=#212121
+palette = 1=#c0c0c0
+palette = 2=#c0c0c0
+palette = 3=#c0c0c0
+palette = 4=#c0c0c0
+palette = 5=#c0c0c0
+palette = 6=#c0c0c0
+palette = 7=#c0c0c0
+palette = 8=#1d1d1d
+palette = 9=#c0c0c0
+palette = 10=#c0c0c0
+palette = 11=#c0c0c0
+palette = 12=#c0c0c0
+palette = 13=#c0c0c0
+palette = 14=#c0c0c0
+palette = 15=#ffffff
+background = #212121
+foreground = #c0c0c0
+cursor-color = #c0c0c0
+cursor-text = #212121
+selection-background = #444444
+selection-foreground = #c0c0c0

@@ -1,0 +1,24 @@
+# komau (dark), generated from the Neovim colorscheme komau.
+# ANSI colors from the colorscheme.
+palette = 0=#222222
+palette = 1=#B31D28
+palette = 2=#22863A
+palette = 3=#FED442
+palette = 4=#005CC5
+palette = 5=#D73A49
+palette = 6=#005CC5
+palette = 7=#F5EEE6
+palette = 8=#424242
+palette = 9=#B31D28
+palette = 10=#22863A
+palette = 11=#FED442
+palette = 12=#005CC5
+palette = 13=#D73A49
+palette = 14=#005CC5
+palette = 15=#F5EEE6
+background = #222222
+foreground = #cccccc
+cursor-color = #cccccc
+cursor-text = #222222
+selection-background = #303030
+selection-foreground = #cccccc
