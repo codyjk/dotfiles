@@ -1,0 +1,10 @@
+# Themes for the `theme` command. Neovim reads this file too.
+# Fields: name | Ghostty dark | Ghostty light | Neovim dark | Neovim light
+# Use - when a theme has no variant for that mode. It then uses the other one.
+# Ghostty names are built-in themes or files in ~/.config/ghostty/themes.
+quiet           | quiet-dark      | quiet-light           | quiet                | quiet
+zenwritten      | Zenwritten Dark | Zenwritten Light      | zenwritten           | zenwritten
+kanagawa        | Kanagawa Dragon | Kanagawa Lotus        | kanagawa             | kanagawa
+vesper          | Vesper          | -                     | vesper               | -
+alabaster       | alabaster-dark  | Alabaster             | alabaster            | alabaster
+nord            | Nord            | -                     | nord                 | -

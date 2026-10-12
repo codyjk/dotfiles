@@ -1,0 +1,122 @@
+#!/bin/zsh
+# theme: switch the color theme and light/dark mode for Ghostty and Neovim.
+# The themes are listed in ~/.config/theme/themes. Neovim reads it too.
+# The choice lives in ~/.local/state/theme, outside chezmoi, so switching
+# never leaves the dotfiles repo dirty:
+#   name     the theme name
+#   mode     light, dark, or auto (follow macOS)
+#   ghostty  config lines that ~/.config/ghostty/config includes
+# Neovim watches name and mode and switches live.
+# tmux and p10k use ANSI colors, so they follow the Ghostty palette.
+emulate -L zsh
+setopt no_unset pipe_fail extended_glob
+
+THEMES=${XDG_CONFIG_HOME:-$HOME/.config}/theme/themes
+STATE=${XDG_STATE_HOME:-$HOME/.local/state}/theme
+DEFAULT_NAME=quiet
+DEFAULT_MODE=auto
+MODES=(auto dark light)
+
+usage() {
+    cat <<'USAGE'
+Usage:
+  theme                show the themes, the current one, and the mode
+  theme NAME           switch to theme NAME
+  theme dark|light|auto
+                       set the mode; auto follows macOS
+  theme NAME MODE      set both
+  theme next           switch to the next theme in the list
+  theme --names        print the theme names (for completion)
+  theme --reapply      write the state files again (chezmoi runs this)
+USAGE
+}
+
+die() { print -u2 "theme: $*"; exit 1 }
+
+# Parse the table into NAMES and four maps keyed by name. "-" means none.
+typeset -a NAMES
+typeset -A GDARK GLIGHT
+[[ -r $THEMES ]] || die "missing $THEMES"
+local line x
+local -a f
+while IFS= read -r line; do
+    [[ $line == [[:space:]]#(\#*|) ]] && continue
+    f=()
+    for x in "${(@s:|:)line}"; do
+        x=${x##[[:space:]]#}
+        f+=("${x%%[[:space:]]#}")
+    done
+    (( $#f == 5 )) || die "bad line in $THEMES: $line"
+    NAMES+=($f[1])
+    GDARK[$f[1]]=${f[2]:#-}
+    GLIGHT[$f[1]]=${f[3]:#-}
+done < $THEMES
+
+read_state() { cat "$STATE/$1" 2>/dev/null || print ${(P)2} }
+cur_name() { read_state name DEFAULT_NAME }
+cur_mode() { read_state mode DEFAULT_MODE }
+
+# Ghostty lines for a theme and mode. A theme with only one variant uses it
+# in every mode.
+ghostty_lines() {
+    local d=$GDARK[$1] l=$GLIGHT[$1]
+    [[ -z $d ]] && d=$l
+    [[ -z $l ]] && l=$d
+    case $2 in
+        dark)  print -r -- "theme = $d" ;;
+        light) print -r -- "theme = $l" ;;
+        auto)  [[ $d == $l ]] && print -r -- "theme = $d" || print -r -- "theme = light:$l,dark:$d" ;;
+    esac
+}
+
+write_state() {
+    mkdir -p "$STATE"
+    print -r -- "$2" > "$STATE/$1.tmp" && mv "$STATE/$1.tmp" "$STATE/$1"
+}
+
+reload_ghostty() {
+    osascript -e 'if application "Ghostty" is running then tell application "Ghostty" to perform action "reload_config" on first terminal' \
+        >/dev/null 2>&1 || print -u2 "theme: reload Ghostty with Cmd+Shift+,"
+}
+
+apply() {
+    local name=$1 mode=$2
+    (( ${NAMES[(Ie)$name]} )) || die "unknown theme '$name'. Choose one of: $NAMES"
+    (( ${MODES[(Ie)$mode]} )) || die "unknown mode '$mode'. Choose one of: $MODES"
+    # Ghostty first, so Neovim never switches ahead of the terminal.
+    write_state ghostty "$(ghostty_lines $name $mode)"
+    write_state mode $mode
+    write_state name $name
+    reload_ghostty
+}
+
+show() {
+    local cur=$(cur_name) n mark v
+    for n in $NAMES; do
+        [[ $n == $cur ]] && mark='*' || mark=' '
+        v=()
+        [[ -n $GDARK[$n] ]] && v+=(dark)
+        [[ -n $GLIGHT[$n] ]] && v+=(light)
+        printf '%s %-16s %s\n' $mark $n "${(j:, :)v}"
+    done
+    print "\nmode: $(cur_mode)"
+}
+
+case ${1-} in
+    "") show ;;
+    -h|--help) usage ;;
+    --names) print -l $NAMES ;;
+    --reapply) apply $(cur_name) $(cur_mode) ;;
+    next)
+        local i=${NAMES[(ie)$(cur_name)]}
+        (( i > $#NAMES )) && i=0
+        apply ${NAMES[i % $#NAMES + 1]} $(cur_mode)
+        print "theme: $(cur_name)" ;;
+    *)
+        local name=$(cur_name) mode=$(cur_mode) a
+        (( $# <= 2 )) || { usage; exit 1 }
+        for a in "$@"; do
+            if (( ${MODES[(Ie)$a]} )); then mode=$a; else name=$a; fi
+        done
+        apply $name $mode ;;
+esac

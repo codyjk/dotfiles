@@ -10,6 +10,10 @@ done
 
 autoload -Uz compinit && compinit
 
+# Tab completion for `theme`: theme names, modes, and next.
+_theme() { compadd -- ${(f)"$(theme --names 2>/dev/null)"} dark light auto next }
+compdef _theme theme
+
 (( $+commands[fzf] )) && source <(fzf --zsh)
 (( $+commands[fnm] )) && eval "$(fnm env --use-on-cd --shell zsh)"
 

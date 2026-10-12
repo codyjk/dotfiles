@@ -35,6 +35,25 @@ Managed by [chezmoi](https://www.chezmoi.io/). On `chezmoi init`, you choose whi
 
 Binaries come from pinned GitHub releases (see `.chezmoidata/versions.toml`) into `~/.local/bin`, not from Homebrew. To change a version, edit that file and run `chezmoi apply`.
 
+## Themes
+
+`theme` switches the color theme and light/dark mode for Ghostty and Neovim in one step. The themes are `quiet` (the default), `zenwritten`, `kanagawa`, `alabaster`, `vesper`, and `nord`. Vesper and Nord have no light variant, so they stay dark in every mode.
+
+- `theme` shows the themes, marks the current one, and shows the mode.
+- `theme NAME` switches to NAME. `theme next` goes to the next one.
+- `theme dark`, `theme light`, or `theme auto` sets the mode. `auto` (the default) follows macOS.
+- `theme NAME MODE` sets both.
+- In Neovim, `:Theme` takes the same arguments. Both have tab completion.
+
+The themes are listed in `~/.config/theme/themes`. The `theme` command and Neovim both read it. Your choice lives in `~/.local/state/theme`, outside chezmoi, so switching does not change the repo. Ghostty includes the `ghostty` file from that folder and reloads at once. Open Neovim instances switch at once. In auto mode, Neovim checks the macOS appearance when it gets focus. Italics are off in every colorscheme. tmux and p10k use ANSI colors, so they follow the Ghostty palette.
+
+To add a theme:
+
+1. Add a line to `dot_config/theme/themes`.
+2. If Ghostty has no built-in theme for it, add one to `dot_config/ghostty/themes`.
+3. Add its Neovim plugin to `lua/plugins/colorscheme.lua`.
+4. Run `chezmoi apply`.
+
 ## Pins and checksums
 
 Every download has an exact version and a SHA-256 in `.chezmoidata/versions.toml`. chezmoi and the install scripts stop on a mismatch. This covers the binaries, powerlevel10k (pinned to one commit), the tmux source tarballs, rustup, and the Homebrew installer. Node, Python, Rust, pyright and TypeScript are also pinned to exact versions. rustup does not update itself. Ghostty must carry a valid signature from the Team ID in `versions.toml`.

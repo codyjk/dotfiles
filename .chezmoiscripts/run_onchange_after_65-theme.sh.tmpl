@@ -1,0 +1,6 @@
+#!/bin/bash
+# Write the theme state files again when the command or the table changes.
+# The default is quiet in auto mode. Your current choice is kept.
+# theme: {{ include "dot_local/bin/executable_theme" | sha256sum }}
+# themes: {{ include "dot_config/theme/themes" | sha256sum }}
+"$HOME/.local/bin/theme" --reapply

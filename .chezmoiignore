@@ -10,6 +10,10 @@ README.md
 .config/tmux
 .config/tmux/**
 {{- end }}
+{{- if ne .modules.terminal "ghostty" }}
+.config/ghostty
+.config/ghostty/**
+{{- end }}
 {{- if not .modules.secrets }}
 .config/zsh
 .config/zsh/**
